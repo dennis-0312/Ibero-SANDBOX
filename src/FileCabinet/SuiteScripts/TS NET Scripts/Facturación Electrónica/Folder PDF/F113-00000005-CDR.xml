@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><ar:ApplicationResponse xmlns:ar="urn:oasis:names:specification:ubl:schema:xsd:ApplicationResponse-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2">
+    <ext:UBLExtensions>
+        <ext:UBLExtension>
+            <ext:ExtensionContent><Signature xmlns="http://www.w3.org/2000/09/xmldsig#" Id="SignOSE"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>t1FzflSQ278ZiGws0xU1Y6W8WHI=</DigestValue></Reference></SignedInfo><SignatureValue>Q28mCIS9XN6atKOelTUIYbW6Xm1qZdMCLTJ/+5P1wODF/PpPPjGRVv2GgyaT8MjfhjOBj+EcQK3mD47TKqeHPLKSgvXw5v8ftiAVjHhlzBv8q2C8vAGXSo96ZumVwSY0XqF/JJUR1Q6Uj8cWJnbORLfivYm5Fc1gJmWP8E9lV7ybRMEROjj5j6NvZQiXt/7KPgotzOaj+59kB/akIQgSJ9sE165tQrTFqNMV6LZv6EoVKg1EtbWaN15JKY0RL5cOQmLw7UqUPjt6FyMrZsW8b3DizRniIsxetqdqrJmufTsfPCKbtSIp8FitVSescvaJrjPos2tF+hPp3y2pZK18Wg==</SignatureValue><KeyInfo><X509Data><X509Certificate>MIIFdzCCBF+gAwIBAgIIVZ6sghEbjqAwDQYJKoZIhvcNAQELBQAwRjEkMCIGA1UEAwwbTGxhbWEucGUgU0hBMjU2IFN0YW5kYXJkIENBMREwDwYDVQQKDAhMTEFNQS5QRTELMAkGA1UEBhMCUEUwHhcNMjIxMDExMjIxNzU5WhcNMjUxMDEwMjIxNzAwWjCCARkxKDAmBgNVBAkMH0FWLiBQRVJTSElORyBOUk8uIDc5MCBEUFRPLiAzMDUxJjAkBgkqhkiG9w0BCQEWF2tjYXJ2YWxsb0Blc2NvbmNvcnAuY29tMRQwEgYDVQQDDAsyMDU1NzEwMzkyMDEcMBoGA1UECwwTQUdFTlRFIEFVVE9NQVRJWkFETzEhMB8GA1UECwwYVmFsaWRhZG8gcG9yIExsYW1hLnBlIEVSMVIwUAYDVQQKDElFU0NPTlRFQ0ggREVMIFBFUlUgU09DSUVEQUQgQU5PTklNQSBDRVJSQURBICAtICBFU0NPTlRFQ0ggREVMIFBFUlUgUy5BLkMuMQ0wCwYDVQQHDARMSU1BMQswCQYDVQQGEwJQRTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMN/w5H5zzQniZ/X1+9Sa3k6Oa7nY6VhWnApy9a7E8NzunEcTwMBVqu8zQHuumaaYKBsmQ0isFlxThYAm5f/McT7GhOI4HTyNJ1JE4rFi0jIk+TCqPYR9vvEGNrU6rOhyUPaXLoyJAA4jv3tc1bgZyttpSm7lE2jxdJiumwFMIONPZ6A2FCJdXA2EEj0jNFb8tyaflIgbQHV6YEA2xKGc4K5WvRGClL013Rh6j+nm/qNUwEfRi0bqD/+XLUrpjO1a+UiOf4TaKpvxWibD0FoWQmpqWDsvi4BKTW2iVXyJTp6BiWxMN9Jsu5sCx4cbEjKegljI2sWYd7ZUi0egGY/8qcCAwEAAaOCAZIwggGOMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUXYhbretl+/5oouTZbz1XcqLvK5kwZwYIKwYBBQUHAQEEWzBZMDUGCCsGAQUFBzAChilodHRwOi8vY3J0LmxsYW1hLnBlL2xsYW1hcGVzdGFuZGFyZGNhLmNlcjAgBggrBgEFBQcwAYYUaHR0cDovL29jc3AubGxhbWEucGUwIgYDVR0RBBswGYEXa2NhcnZhbGxvQGVzY29uY29ycC5jb20wRgYDVR0gBD8wPTA7Bg0rBgEEAYOXdwABAAMBMCowKAYIKwYBBQUHAgEWHGh0dHBzOi8vbGxhbWEucGUvcmVwb3NpdG9yeS8wHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMDoGA1UdHwQzMDEwL6AtoCuGKWh0dHA6Ly9jcmwubGxhbWEucGUvbGxhbWFwZXN0YW5kYXJkY2EuY3JsMB0GA1UdDgQWBBRxmtqAv0VJC72qndAksCO+U78YoTAOBgNVHQ8BAf8EBAMCBsAwDQYJKoZIhvcNAQELBQADggEBAE0Sc20yMap0uXFziMsIHapr1ZkDxChKnO3a3Awbgj9zXDqvbNHiS2d7+swVILm/knBQfWXXUj2YFi+L9SxbBkIVxnyCAZ1rvHYoBXsKXWwAI+vf3WkwWIIwGwEizp/eS6pLRX82H3HBUUbK6pfx/4Oie2NFxvEKVIx5y5oVDwJLGZ/kuKUXYfMIH27gvmQcmqr3ybR93WwNZHfX5CuxXpQ73kuBRektbKrmnQcSG8CkJakWmySm3Hfr8c1bg0UPiWiAlEcbwvoHYSDMSLlzFtFR5B5TysSSvAaseD4uz5n3Ijn3PgGpNvG7rG9ZQEJLkb9hx+wPkrvCwRwyhxkbxZ0=</X509Certificate></X509Data></KeyInfo></Signature></ext:ExtensionContent>
+        </ext:UBLExtension>
+    </ext:UBLExtensions>
+    <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
+    <cbc:CustomizationID>1.0</cbc:CustomizationID>
+    <cbc:ID>5e569f9f-4f75-32f0-ab67-3485e4094274</cbc:ID>
+    <cbc:IssueDate>2023-01-16</cbc:IssueDate>
+    <cbc:IssueTime>16:06:47.666</cbc:IssueTime>
+    <cbc:ResponseDate>2023-01-16</cbc:ResponseDate>
+    <cbc:ResponseTime>16:06:56.295</cbc:ResponseTime>
+    <cac:Signature>
+        <cbc:ID>SignOSE</cbc:ID>
+        <cac:SignatoryParty>
+            <cac:PartyIdentification>
+                <cbc:ID>20557103920</cbc:ID>
+            </cac:PartyIdentification>
+            <cac:PartyName>
+                <cbc:Name>OSE</cbc:Name>
+            </cac:PartyName>
+        </cac:SignatoryParty>
+        <cac:DigitalSignatureAttachment>
+            <cac:ExternalReference>
+                <cbc:URI>SignOSE</cbc:URI>
+            </cac:ExternalReference>
+        </cac:DigitalSignatureAttachment>
+    </cac:Signature>
+    <cac:SenderParty>
+        <cac:PartyLegalEntity>
+            <cbc:CompanyID schemeAgencyName="PE:SUNAT" schemeID="6" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo6">20557103920</cbc:CompanyID>
+        </cac:PartyLegalEntity>
+    </cac:SenderParty>
+    <cac:ReceiverParty>
+        <cac:PartyLegalEntity>
+            <cbc:CompanyID schemeAgencyName="PE:SUNAT" schemeID="6" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo6">20557103920</cbc:CompanyID>
+        </cac:PartyLegalEntity>
+    </cac:ReceiverParty>
+    <cac:DocumentResponse>
+        <cac:Response>
+            <cbc:ResponseCode listAgencyName="PE:SUNAT">0</cbc:ResponseCode>
+            <cbc:Description>Documento: FACTURA - Numero: F113-00000005, ha sido aceptado.</cbc:Description>
+            
+        </cac:Response>
+        <cac:DocumentReference>
+            <cbc:ID>F113-00000005</cbc:ID>
+            <cbc:IssueDate>2023-01-14</cbc:IssueDate>
+            <cbc:IssueTime>20:25:00</cbc:IssueTime>
+            <cbc:DocumentTypeCode>01</cbc:DocumentTypeCode>
+            <cac:Attachment>
+                <cac:ExternalReference>
+                    <cbc:DocumentHash>vYGJW/WoQV28GqjlFm4LSzgOsNs=</cbc:DocumentHash>
+                </cac:ExternalReference>
+            </cac:Attachment>
+        </cac:DocumentReference>
+        <cac:IssuerParty>
+            <cac:PartyLegalEntity>
+                <cbc:CompanyID schemeID="6">20295754444</cbc:CompanyID>
+            </cac:PartyLegalEntity>
+        </cac:IssuerParty>
+        <cac:RecipientParty>
+            <cac:PartyLegalEntity>
+                <cbc:CompanyID schemeID="6">20602570801</cbc:CompanyID>
+            </cac:PartyLegalEntity>
+        </cac:RecipientParty>
+    </cac:DocumentResponse>
+</ar:ApplicationResponse>
