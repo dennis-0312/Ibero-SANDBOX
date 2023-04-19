@@ -28,7 +28,7 @@ define(['N/log', 'N/record'],
 
                 objRecord.selectNewLine({ sublistId: 'line' });
                 objRecord.setCurrentSublistValue({ sublistId: 'line', fieldId: 'account', value: requestParams.account, ignoreFieldChange: false });
-                objRecord.setCurrentSublistValue({ sublistId: 'line', fieldId: 'debit', value: parseFloat(requestParams.amount), ignoreFieldChange: false });
+                objRecord.setCurrentSublistValue({ sublistId: 'line', fieldId: 'credit', value: parseFloat(requestParams.amount), ignoreFieldChange: false });
                 objRecord.setCurrentSublistValue({ sublistId: 'line', fieldId: 'department', value: 9, ignoreFieldChange: false });
                 objRecord.setCurrentSublistValue({ sublistId: 'line', fieldId: 'class', value: 31, ignoreFieldChange: false });
                 objRecord.setCurrentSublistValue({ sublistId: 'line', fieldId: 'location', value: 2, ignoreFieldChange: false });
@@ -36,7 +36,7 @@ define(['N/log', 'N/record'],
 
                 objRecord.selectNewLine({ sublistId: 'line' });
                 objRecord.setCurrentSublistValue({ sublistId: 'line', fieldId: 'account', value: requestParams.account2, ignoreFieldChange: false });
-                objRecord.setCurrentSublistValue({ sublistId: 'line', fieldId: 'credit', value: parseFloat(requestParams.amount), ignoreFieldChange: false });
+                objRecord.setCurrentSublistValue({ sublistId: 'line', fieldId: 'debit', value: parseFloat(requestParams.amount), ignoreFieldChange: false });
                 objRecord.setCurrentSublistValue({ sublistId: 'line', fieldId: 'department', value: 9, ignoreFieldChange: false });
                 objRecord.setCurrentSublistValue({ sublistId: 'line', fieldId: 'class', value: 31, ignoreFieldChange: false });
                 objRecord.setCurrentSublistValue({ sublistId: 'line', fieldId: 'location', value: 2, ignoreFieldChange: false });

@@ -89,7 +89,7 @@ define(['N/log', 'N/search', 'N/record'], (log, search, record) => {
             objRecord.setValue({ fieldId: 'custbody_il_codigo_cupon', value: context.couponcode });//REQUEST
 
 
-            //TODO: PROCCESS TYPE DELIVERY METHOD =======================================================================================================
+            //?: PROCCESS TYPE DELIVERY METHOD =======================================================================================================
             if (shipmethod == IL_HOME_DELIVERY) {
                 objRecord.setValue({ fieldId: 'custbody_il_quien_recibe', value: context.receiver });//REQUEST
 
@@ -120,7 +120,7 @@ define(['N/log', 'N/search', 'N/record'], (log, search, record) => {
                 objRecord.setValue({ fieldId: 'custbody_il_quien_recibe', value: context.receiver });//REQUEST
                 objRecord.setValue({ fieldId: 'custbody_il_lista_localizaciones', value: context.store });//REQUEST
             }
-            //TODO ======================================================================================================================================
+            //? ======================================================================================================================================
 
 
             //! ACTIVAR PARA FEL==========================================================================================================================
@@ -131,7 +131,7 @@ define(['N/log', 'N/search', 'N/record'], (log, search, record) => {
             // }
             //!===========================================================================================================================================
 
-            //TODO: DETAILS ITEMS ========================================================================================================================
+            //?: DETAILS ITEMS ========================================================================================================================
             const itemLine = objRecord.selectNewLine({ sublistId: 'item' });
             for (let i in items) {
                 let mul = 0;
