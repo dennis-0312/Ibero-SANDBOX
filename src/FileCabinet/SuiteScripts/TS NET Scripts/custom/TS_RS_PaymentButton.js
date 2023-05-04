@@ -2,12 +2,12 @@
  * @NApiVersion 2.1
  * @NScriptType Restlet
  */
-define(['N/log', 'N/record'],
+define(['N/log', 'N/record', 'N/search'],
     /**
  * @param{log} log
  * @param{record} record
  */
-    (log, record) => {
+    (log, record, search) => {
         /**
          * Defines the function that is executed when a GET request is sent to a RESTlet.
          * @param {Object} requestParams - Parameters from HTTP request URL; parameters passed as an Object (for all supported
@@ -43,9 +43,10 @@ define(['N/log', 'N/record'],
                 objRecord.commitLine({ sublistId: 'line' });
 
                 objResults = objRecord.save({ ignoreMandatoryFields: true });
-                log.debug('Journal', objResults);
+                let fieldLookUp = search.lookupFields({ type: search.Type.JOURNAL_ENTRY, id: objResults, columns: ['tranid'] });
+                log.debug('Journal', fieldLookUp.tranid);
                 // }
-                return 'Asiento Diario ' + objResults + ' creado';
+                return 'Asiento Diario ' + fieldLookUp.tranid + ' creado';
             } catch (error) {
                 return error.message;
             }
