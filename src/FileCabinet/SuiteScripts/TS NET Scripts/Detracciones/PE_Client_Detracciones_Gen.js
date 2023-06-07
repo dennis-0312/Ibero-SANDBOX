@@ -4,7 +4,7 @@
  */
 define(['N/error'],
 	function (error) {
-		function fieldChanged(context) {
+		function fieldChanged(context) {//
 			var fieldNameD = context.fieldId;
 		}
 		function showAllFields() {
