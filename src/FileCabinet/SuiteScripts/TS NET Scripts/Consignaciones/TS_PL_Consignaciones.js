@@ -18,7 +18,8 @@ function customizeGlImpact(transactionRecord, standardLines, customLines, book) 
     //     accountMatchConsig = 3451; //063101 Mercaderia en Consignación
     // } else 
     if (typeCreatedFrom == 'transferorder') {
-        accountToCredit = 216; //Inventario en tránsito
+        //accountToCredit = 216; //Inventario en tránsito
+        accountToCredit = 2975; //Inventario en tránsito
         accountToDebit = 671; //2011101 COSTO MERCADERIA IBERO 2011101 - L7
         accountMatchConsig = 3451; //063101 Mercaderia en Consignación SB: 3451 - PR:3450
     }
@@ -59,7 +60,7 @@ function customizeGlImpact(transactionRecord, standardLines, customLines, book) 
                         if (isConsig == 'T') {
                             var newLine = customLines.addNewLine();
                             //newLine.setCreditAmount(standardLines.getLine(i).getDebitAmount());
-                            newLine.setCreditAmount(amountConsig);
+                            newLine.setCreditAmount(standardLines.getLine(i).getDebitAmount());
                             newLine.setAccountId(accountMatchConsig); //214 //2974
                             newLine.setEntityId(standardLines.getLine(i).getEntityId());
                             newLine.setDepartmentId(standardLines.getLine(i).getDepartmentId());
@@ -71,7 +72,7 @@ function customizeGlImpact(transactionRecord, standardLines, customLines, book) 
                         if (isConsig == 'T') {
                             var newLine = customLines.addNewLine();
                             // newLine.setDebitAmount(standardLines.getLine(i).getCreditAmount());
-                            newLine.setDebitAmount(amountConsig);
+                            newLine.setDebitAmount(standardLines.getLine(i).getDebitAmount());
                             newLine.setAccountId(accountToDebit);
                             newLine.setEntityId(standardLines.getLine(i).getEntityId());
                             newLine.setDepartmentId(standardLines.getLine(i).getDepartmentId());
@@ -82,6 +83,41 @@ function customizeGlImpact(transactionRecord, standardLines, customLines, book) 
                             nlapiLogExecution("DEBUG", "ITEM", sku + ' - is consig');
                         } else {
                             j++;
+                        }
+                    }
+                }
+            } else if (typeCreatedFrom == 'returnauthorization') {
+                var countStandard = parseInt(standardLines.getCount());
+                var countTransaction = transactionRecord.getLineItemCount('item');
+                var j = 1
+                for (var i = 1; i < countStandard; i++) {
+                    if (j > countTransaction) {
+                        break;
+                    }
+                    var isConsig = transactionRecord.getLineItemValue('item', 'custcol_pe_aplicar_consignacion', j);
+                    var sku = transactionRecord.getLineItemText('item', 'item', j);
+                    var account = standardLines.getLine(i).getAccountId();
+                    if (account == accountToDebit) {
+                        if (isConsig == 'T') {
+                            var newLine = customLines.addNewLine();
+                            //newLine.setCreditAmount(standardLines.getLine(i).getDebitAmount());
+                            newLine.setDebitAmount(standardLines.getLine(i).getDebitAmount());
+                            newLine.setAccountId(accountMatchConsig); //214 //2974
+                            newLine.setEntityId(standardLines.getLine(i).getEntityId());
+                            newLine.setDepartmentId(standardLines.getLine(i).getDepartmentId());
+                            newLine.setClassId(standardLines.getLine(i).getClassId());
+                            newLine.setLocationId(standardLines.getLine(i).getLocationId());
+                            newLine.setMemo(sku);
+                            var newLine = customLines.addNewLine();
+                            newLine.setCreditAmount(standardLines.getLine(i).getDebitAmount());
+                            newLine.setAccountId(standardLines.getLine(i).getAccountId());
+                            newLine.setEntityId(standardLines.getLine(i).getEntityId());
+                            newLine.setDepartmentId(standardLines.getLine(i).getDepartmentId());
+                            newLine.setClassId(standardLines.getLine(i).getClassId());
+                            newLine.setLocationId(standardLines.getLine(i).getLocationId());
+                            newLine.setMemo(sku);
+                            j++;
+                            nlapiLogExecution("DEBUG", "ITEM", sku + ' - is consig');
                         }
                     }
                 }
