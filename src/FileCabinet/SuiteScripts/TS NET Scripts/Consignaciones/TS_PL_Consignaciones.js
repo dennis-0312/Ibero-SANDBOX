@@ -11,7 +11,7 @@ function customizeGlImpact(transactionRecord, standardLines, customLines, book) 
     // var record = nlapiLoadRecord('customrecord_pe_ei_enable_features', 1);
     // var ruc = record.getFieldValue('custrecord_pe_ei_ruc');
     // nlapiLogExecution("DEBUG", "TestOpenRecord", ruc);
-    nlapiLogExecution("DEBUG", "TypeCreatedFrom", typeCreatedFrom);
+    //nlapiLogExecution("DEBUG", "TypeCreatedFrom", typeCreatedFrom);
     // if (typeCreatedFrom == 'salesorder') {
     //     accountToCredit = 2975; //691210 COSTO MERCADERIA IBERO 691210 - L6
     //     accountToDebit = 671; //2011101 COSTO MERCADERIA IBERO 2011101 - L7
@@ -146,7 +146,9 @@ function customizeGlImpact(transactionRecord, standardLines, customLines, book) 
                     var amountConsig = parseFloat(averageCost) * parseInt(quantityConsig);
                     var sku = transactionRecord.getLineItemText('item', 'item', j);
                     var account = standardLines.getLine(i).getAccountId();
+                    //nlapiLogExecution('DEBUG', 'ItemFulfillment', 'Cuenta0: ' + account + ' -I: ' + i + ' -J: ' + j);
                     if (account == accountToCredit) {
+                        //nlapiLogExecution('DEBUG', 'ItemFulfillment', 'Cuenta1: ' + account + ' -I: ' + i + ' -J: ' + j);
                         if (isConsig == 'T' || esconsignacion == 'T') {
                             var newLine = customLines.addNewLine();
                             //newLine.setCreditAmount(standardLines.getLine(i).getDebitAmount());
@@ -159,6 +161,7 @@ function customizeGlImpact(transactionRecord, standardLines, customLines, book) 
                             newLine.setMemo(sku);
                         }
                     } else if (account == accountToDebit) {
+                        //nlapiLogExecution('DEBUG', 'ItemFulfillment', 'Cuenta2: ' + account + ' -I: ' + i + ' -J: ' + j);
                         if (isConsig == 'T' || esconsignacion == 'T') {
                             var newLine = customLines.addNewLine();
                             // newLine.setDebitAmount(standardLines.getLine(i).getCreditAmount());
@@ -195,7 +198,7 @@ function customizeGlImpact(transactionRecord, standardLines, customLines, book) 
                     if (standardLines.getLine(i).getCreditAmount() != 0) {
                         var newLine = customLines.addNewLine();
                         newLine.setCreditAmount(standardLines.getLine(i).getCreditAmount());
-                        newLine.setAccountId(122);
+                        newLine.setAccountId(accountMatchConsig);
                         newLine.setEntityId(entity);
                         newLine.setDepartmentId(department);
                         newLine.setClassId(clase);
