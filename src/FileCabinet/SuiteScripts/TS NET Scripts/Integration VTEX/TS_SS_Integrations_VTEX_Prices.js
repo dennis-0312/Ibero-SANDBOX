@@ -48,7 +48,7 @@ define(['N/log', 'N/search', 'N/https', 'N/runtime'], (log, search, https, runti
             const searchResult = searchLoad.run().getRange({ start: 0, end: 1000 });
             if (action == 0) {
                 for (let i in searchResult) {
-                    let sku = searchResult[i].getValue(searchLoad.columns[1]);
+                    let sku = searchResult[i].getValue(searchLoad.columns[0]);
                     let regular_price = searchResult[i].getValue(searchLoad.columns[3]);
                     let dateChange = searchResult[i].getValue(searchLoad.columns[4]);
                     log.debug('Date', dateChange);
@@ -65,7 +65,7 @@ define(['N/log', 'N/search', 'N/https', 'N/runtime'], (log, search, https, runti
                 }
             } else {
                 for (let i in searchResult) {
-                    let sku = searchResult[i].getValue(searchLoad.columns[1]);
+                    let sku = searchResult[i].getValue(searchLoad.columns[0]);
                     let regular_price = searchResult[i].getValue(searchLoad.columns[3]);
                     jsonRequest.push({
                         "sku": sku,
@@ -79,11 +79,12 @@ define(['N/log', 'N/search', 'N/https', 'N/runtime'], (log, search, https, runti
             if (body.length <= 2) {
                 log.debug('Debug', 'No se encontraron registros');
             } else {
-                headerObj['Accept'] = ACCEPT;
-                headerObj['Authorization'] = TOKEN;
-                headerObj['Content-Type'] = CONTENT_TYPE;
-                let response = https.post({ url: URL_PRICE, body: body, headers: headerObj });
-                log.debug('Response', 'status: ' + response.code + ' - ' + 'response: ' + response.body);
+                // headerObj['Accept'] = ACCEPT;
+                // headerObj['Authorization'] = TOKEN;
+                // headerObj['Content-Type'] = CONTENT_TYPE;
+                // let response = https.post({ url: URL_PRICE, body: body, headers: headerObj });
+                // log.debug('Response', 'status: ' + response.code + ' - ' + 'response: ' + response.body);
+                log.debug('Debug', 'Envío a VETX');
             }
             log.debug('Fin', 'FIN--------------------------------------------');
         }

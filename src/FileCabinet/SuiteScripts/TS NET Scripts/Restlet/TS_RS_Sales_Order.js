@@ -142,12 +142,12 @@ define(['N/log', 'N/search', 'N/record'], (log, search, record) => {
                 log.debug('SKU', items[i].sku);
 
                 itemid = items[i].sku;
-                if (itemid != subTotal) {
-                    itemid = getItemID(items[i].sku);
-                    if (itemid == 0) {
-                        return 'SKU no registrado';
-                    }
-                }
+                // if (itemid != subTotal) {
+                //     itemid = getItemID(items[i].sku);
+                //     if (itemid == 0) {
+                //         return 'SKU no registrado';
+                //     }
+                // }
 
                 let taxcode = items[i].taxcode;
                 lookUpTaxCode = search.lookupFields({ type: search.Type.SALES_TAX_ITEM, id: taxcode, columns: ['internalid', 'rate'] });
@@ -182,7 +182,7 @@ define(['N/log', 'N/search', 'N/record'], (log, search, record) => {
                 //custcol_pe_afec_igv
                 objRecord.commitLine({ sublistId: 'item' });
             }
-            //TODO =======================================================================================================================================
+            //? =======================================================================================================================================
 
             let response = objRecord.save({ ignoreMandatoryFields: true });
 

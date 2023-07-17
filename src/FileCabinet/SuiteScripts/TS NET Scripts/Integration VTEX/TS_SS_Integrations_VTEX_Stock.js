@@ -67,7 +67,7 @@ define(['N/log', 'N/search', 'N/https', 'N/runtime'], (log, search, https, runti
                             if (searchResultCount != 0) {
                                 const searchResult = searchLoad.run().getRange({ start: 0, end: 1000 });
                                 for (let i in searchResult) {
-                                    const sku = searchResult[i].getValue(searchLoad.columns[0]);
+                                    const sku = searchResult[i].getValue({ name: "internalid" });
                                     let stock = parseInt(searchResult[i].getValue(searchLoad.columns[4]));
                                     stock = isNaN(stock) == true ? 0 : stock;
                                     const location = searchResult[i].getValue(searchLoad.columns[3]);
@@ -136,7 +136,7 @@ define(['N/log', 'N/search', 'N/https', 'N/runtime'], (log, search, https, runti
                             if (searchResultCount != 0) {
                                 const searchResult = searchLoad.run().getRange({ start: 0, end: 1000 });
                                 for (let i in searchResult) {
-                                    const sku = searchResult[i].getValue(searchLoad.columns[0]);
+                                    const sku = searchResult[i].getValue({ name: "internalid" });
                                     let stock = parseInt(searchResult[i].getValue(searchLoad.columns[4]));
                                     stock = isNaN(stock) == true ? 0 : stock;
                                     const location = searchResult[i].getValue(searchLoad.columns[3]);
@@ -160,7 +160,7 @@ define(['N/log', 'N/search', 'N/https', 'N/runtime'], (log, search, https, runti
                         }
                         let body = JSON.stringify(jsonRequest);
                         log.debug('Request', body);
-                        //executeStockWS(body);
+                        executeStockWS(body);
                     }
                 }
             }
