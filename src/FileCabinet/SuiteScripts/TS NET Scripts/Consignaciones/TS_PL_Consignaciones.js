@@ -18,8 +18,8 @@ function customizeGlImpact(transactionRecord, standardLines, customLines, book) 
     //     accountMatchConsig = 3451; //063101 Mercaderia en Consignación
     // } else 
     if (typeCreatedFrom == 'transferorder') {
-        //accountToCredit = 216; //Inventario en tránsito
-        accountToCredit = 2975; //Inventario en tránsito
+        accountToInvTran = 216; //Inventario en tránsito
+        accountToCredit = 2975; //691210 COSTO MERCADERIA IBERO 691210 - L6
         accountToDebit = 671; //2011101 COSTO MERCADERIA IBERO 2011101 - L7
         accountMatchConsig = 3451; //063101 Mercaderia en Consignación SB: 3451 - PR:3450
     }
@@ -61,19 +61,19 @@ function customizeGlImpact(transactionRecord, standardLines, customLines, book) 
                             var newLine = customLines.addNewLine();
                             //newLine.setCreditAmount(standardLines.getLine(i).getDebitAmount());
                             newLine.setCreditAmount(standardLines.getLine(i).getDebitAmount());
-                            newLine.setAccountId(accountMatchConsig); //214 //2974
+                            newLine.setAccountId(accountToDebit); //214 //2974
                             newLine.setEntityId(standardLines.getLine(i).getEntityId());
                             newLine.setDepartmentId(standardLines.getLine(i).getDepartmentId());
                             newLine.setClassId(standardLines.getLine(i).getClassId());
                             newLine.setLocationId(standardLines.getLine(i).getLocationId());
                             newLine.setMemo(sku);
                         }
-                    } else if (account == accountToCredit) {
+                    } else if (account == accountToInvTran) {
                         if (isConsig == 'T') {
                             var newLine = customLines.addNewLine();
                             // newLine.setDebitAmount(standardLines.getLine(i).getCreditAmount());
-                            newLine.setDebitAmount(standardLines.getLine(i).getDebitAmount());
-                            newLine.setAccountId(accountToDebit);
+                            newLine.setDebitAmount(standardLines.getLine(i).getCreditAmount());
+                            newLine.setAccountId(accountMatchConsig);
                             newLine.setEntityId(standardLines.getLine(i).getEntityId());
                             newLine.setDepartmentId(standardLines.getLine(i).getDepartmentId());
                             newLine.setClassId(standardLines.getLine(i).getClassId());
@@ -284,7 +284,7 @@ function customizeGlImpact(transactionRecord, standardLines, customLines, book) 
                     var amountConsig = parseFloat(averageCost) * parseInt(quantityConsig);
                     var sku = transactionRecord.getLineItemText('item', 'item', j);
                     var account = standardLines.getLine(i).getAccountId();
-                    if (account == accountToCredit) {
+                    if (account == accountToInvTran) {
                         if (isConsig == 'T') {
                             var newLine = customLines.addNewLine();
                             //newLine.setCreditAmount(standardLines.getLine(i).getDebitAmount());
