@@ -953,7 +953,7 @@ var qz = (function() {
             }
 
             if(newPrinter && newPrinter.file) {
-                // TODO: Warn for UNC paths too https://github.com/qzind/tray/issues/730
+                // ?: Warn for UNC paths too https://github.com/qzind/tray/issues/730
                 if(newPrinter.file.indexOf("\\\\") != 0) {
                     _qz.log.warn("Printing to file is deprecated.  See https://github.com/qzind/tray/issues/730");
                 }
