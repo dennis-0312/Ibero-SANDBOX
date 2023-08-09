@@ -135,10 +135,10 @@ define(['N/log', 'N/search', 'N/record', 'N/runtime', 'N/redirect', 'N/url', 'N/
             var form = context.form;
             var type = objRecord.type;
             var tranID = objRecord.getValue('tranid').split('-');
-            tranID = tranID[1]+'-'+tranID[2];
-            log.debug('tranID',tranID); 
+            tranID = tranID[1] + '-' + tranID[2];
+            log.debug('tranID', tranID);
             var idRecordDocument = getEDocument(tranID);
-            log.debug('idRecordDocument',idRecordDocument);
+            log.debug('idRecordDocument', idRecordDocument);
             try {
                 if (type == CASH_SALE || type == CREDIT_MEMO) {
                     form.addButton({
@@ -148,22 +148,22 @@ define(['N/log', 'N/search', 'N/record', 'N/runtime', 'N/redirect', 'N/url', 'N/
                     });
                     form.clientScriptModulePath = './TS_CS_Reimprimir.js';
                 }
-                if((type == CASH_SALE || type == CREDIT_MEMO || type == INVOICE) && idRecordDocument){
+                if ((type == CASH_SALE || type == CREDIT_MEMO || type == INVOICE) && idRecordDocument) {
                     var customField = form.addField({
                         id: 'custpage_custom_field',
                         type: serverWidget.FieldType.TEXT,
                         label: 'Lista Personalizada',
                         //source: 'transaccion'
-                      });
-               
-                        //customField.defaultValue = idRecordDocument;
-                        var url = 'https://6785603-sb1.app.netsuite.com/app/common/custom/custrecordentry.nl?rectype=1302&id='+idRecordDocument; // Reemplaza con la URL deseada
-                        var html = '<a href="' + url + '">Documentos electrónicos</a>';
+                    });
 
-                        // Establece la etiqueta HTML en el campo personalizado
-                        customField.defaultValue = html;
+                    //customField.defaultValue = idRecordDocument;
+                    var url = 'https://6785603-sb1.app.netsuite.com/app/common/custom/custrecordentry.nl?rectype=1302&id=' + idRecordDocument; // Reemplaza con la URL deseada
+                    var html = '<a href="' + url + '">Documentos electrónicos</a>';
 
-                    
+                    // Establece la etiqueta HTML en el campo personalizado
+                    customField.defaultValue = html;
+
+
                 }
             } catch (error) {
                 log.error('Error-beforeLoad-General', eventType + '--' + error);
@@ -424,14 +424,14 @@ define(['N/log', 'N/search', 'N/record', 'N/runtime', 'N/redirect', 'N/url', 'N/
             var busqueda = search.create({
                 type: "customrecord_e_document_fields",
                 filters:
-                [
-                   ["name","is",tranid]
-                ],
+                    [
+                        ["name", "is", tranid]
+                    ],
                 columns:
-                [
-                    search.createColumn({name: "internalid", label: "ID interno"})
-                 ]
-             });
+                    [
+                        search.createColumn({ name: "internalid", label: "ID interno" })
+                    ]
+            });
             var savedsearch = busqueda.run().getRange(0, 1);
             var idInterno = '';
             if (savedsearch.length > 0) {
