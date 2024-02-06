@@ -1,4 +1,4 @@
-<deploy>
+<!-- <deploy>
     <configuration>
         <path>~/AccountConfiguration/*</path>
     </configuration>
@@ -11,4 +11,4 @@
     <translationimports>
         <path>~/Translations/*</path>
     </translationimports>
-</deploy>
+</deploy> -->

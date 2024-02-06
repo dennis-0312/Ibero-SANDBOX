@@ -118,82 +118,108 @@ define(['N/ui/serverWidget', 'N/search', 'N/redirect', 'N/file'], function (serv
                 sublist1.addField({ id: 'list1_ubicacion', type: serverWidget.FieldType.TEXT, label: 'UBICACIÓN' });
                 sublist1.addField({ id: 'list1_cant_disponible', type: serverWidget.FieldType.TEXT, label: 'CANTIDAD DISPONIBLE' });
                 sublist1.addField({ id: 'list1_precio_base', type: serverWidget.FieldType.TEXT, label: 'PRECIO BASE' });
-                sublist1.addField({ id: 'list1_detalles_item', type: serverWidget.FieldType.TEXT, label: 'DETALLES' });
                 //sublist1.addField({ id: 'list1_imagen', type: serverWidget.FieldType.TEXT, label: 'IMAGEN' });
+                //<I> rhuaccha: 2024-01-29
+                sublist1.addField({ id: 'list1_pvp_final', type: serverWidget.FieldType.TEXT, label: 'PVP FINAL' });
+                sublist1.addField({ id: 'list1_prog_fiscal', type: serverWidget.FieldType.TEXT, label: 'PROGRAMA FISCAL' });
+                //<F> rhuaccha: 2024-01-29
 
 
-                if (p_isbn != '' || p_nombre != '' || p_autor != '' || p_editorial != '' || p_categoria != '' || p_subcategoria != '' || p_ubicacion != '' || p_vendor != '') {
-
-                    var searchLoad = obtenerArticulos(p_isbn, p_nombre, p_autor, p_editorial, p_categoria, p_subcategoria, p_ubicacion, p_vendor);
-
-                    /* ---------------------------- INICIO PAGINADO ---------------------------- */
-                    var retrieveSearch = searchLoad.runPaged({ pageSize: PAGE_SIZE });
-                    var pageCount = Math.ceil(retrieveSearch.count / PAGE_SIZE);
-
-                    // Set pageId to correct value if out of index
-                    if (!pageId || pageId == '' || pageId < 0)
-                        pageId = 0;
-                    else if (pageId >= pageCount)
-                        pageId = pageCount - 1;
+                var searchLoad = obtenerArticulos(p_isbn, p_nombre, p_autor, p_editorial, p_categoria, p_subcategoria, p_ubicacion, p_vendor);
+                //log.debug('searchLoad', searchLoad);
 
 
-                    // Add drop-down and options to navigate to specific page
-                    var selectOptions = form.addField({ id: 'custpage_pageid', type: 'select', label: 'Página', container: 'groupPaginado' });
-                    for (i = 0; i < pageCount; i++) {
-                        if (i == pageId) {
-                            selectOptions.addSelectOption({
-                                value: 'pageid_' + i,
-                                text: ((i * PAGE_SIZE) + 1) + ' - ' + ((i + 1) * PAGE_SIZE),
-                                isSelected: true
-                            });
-                        } else {
-                            selectOptions.addSelectOption({
-                                value: 'pageid_' + i,
-                                text: ((i * PAGE_SIZE) + 1) + ' - ' + ((i + 1) * PAGE_SIZE)
-                            });
-                        }
-                    }
-                    /* ---------------------------- FIN PAGINADO ---------------------------- */
+                //if (p_flag != 0) {
+                /* ---------------------------- INICIO PAGINADO ---------------------------- */
+                var retrieveSearch = searchLoad.runPaged({ pageSize: PAGE_SIZE });
+                //log.debug('retrieveSearch', retrieveSearch.count);
+                var pageCount = Math.ceil(retrieveSearch.count / PAGE_SIZE);
+                //log.debug('pageCount', pageCount);
 
 
-                    if (retrieveSearch.count != 0) {
+                // Set pageId to correct value if out of index
+                if (!pageId || pageId == '' || pageId < 0)
+                    pageId = 0;
+                else if (pageId >= pageCount)
+                    pageId = pageCount - 1;
 
-                        var searchPage = retrieveSearch.fetch({ index: pageId });
-                        var i = 0;
 
-                        searchPage.data.forEach(function (result) {
-                            var column01 = result.getValue(searchLoad.columns[0]) || ' ';
-                            var column02 = result.getValue(searchLoad.columns[1]) || ' ';
-                            var column03 = result.getValue(searchLoad.columns[2]) || ' ';
-                            var column04 = result.getValue(searchLoad.columns[3]) || ' ';
-                            var column05 = result.getValue(searchLoad.columns[4]) || ' ';
-                            var column06 = result.getText(searchLoad.columns[5]) || ' ';
-                            var column07 = result.getText(searchLoad.columns[6]) || ' ';
-                            var column15 = result.getText(searchLoad.columns[14]) || ' ';
-                            var column16 = result.getValue(searchLoad.columns[15]) || '0';
-                            var column17 = result.getValue(searchLoad.columns[16]) || '0.00';
-                            var column19 = result.getText(searchLoad.columns[18]) || ' ';
-                            var column18 = 'Ver Detalles';
-                            //var column18 = result.getValue(searchLoad.columns[17]) || 'Sin imagen';
-                            //if (column18 != 'Sin imagen') column18 = '<img src=' + ('https://6785603-sb1.app.netsuite.com' + getUrlImagen(column18)) + ' width="100" height="100">';
-                            //log.debug('column18', column18);
+                // Add drop-down and options to navigate to specific page
+                var selectOptions = form.addField({ id: 'custpage_pageid', type: 'select', label: 'Página', container: 'groupPaginado' });
 
-                            sublist1.setSublistValue({ id: 'list1_isbn', line: i, value: column02 });
-                            sublist1.setSublistValue({ id: 'list1_vendor', line: i, value: column19 });
-                            sublist1.setSublistValue({ id: 'list1_nombre', line: i, value: column03 });
-                            sublist1.setSublistValue({ id: 'list1_autor', line: i, value: column04 });
-                            sublist1.setSublistValue({ id: 'list1_editorial', line: i, value: column05 });
-                            sublist1.setSublistValue({ id: 'list1_categoria', line: i, value: column06 });
-                            sublist1.setSublistValue({ id: 'list1_subcategoria', line: i, value: column07 });
-                            sublist1.setSublistValue({ id: 'list1_ubicacion', line: i, value: column15 });
-                            sublist1.setSublistValue({ id: 'list1_cant_disponible', line: i, value: column16 });
-                            sublist1.setSublistValue({ id: 'list1_precio_base', line: i, value: column17 });
-                            sublist1.setSublistValue({ id: 'list1_detalles_item', line: i, value: column18 });
-                            i++
-                            return true
+                for (i = 0; i < pageCount; i++) {
+                    if (i == pageId) {
+                        selectOptions.addSelectOption({
+                            value: 'pageid_' + i,
+                            text: ((i * PAGE_SIZE) + 1) + ' - ' + ((i + 1) * PAGE_SIZE),
+                            isSelected: true
+                        });
+                    } else {
+                        selectOptions.addSelectOption({
+                            value: 'pageid_' + i,
+                            text: ((i * PAGE_SIZE) + 1) + ' - ' + ((i + 1) * PAGE_SIZE)
                         });
                     }
                 }
+                /* ---------------------------- FIN PAGINADO ---------------------------- */
+
+
+                if (retrieveSearch.count != 0) {
+
+                    var searchPage = retrieveSearch.fetch({ index: pageId });
+                    var i = 0;
+
+                    searchPage.data.forEach(function (result) {
+                        var multi = 0.0
+                        var column01 = result.getValue(searchLoad.columns[0]) || ' ';
+                        var column02 = result.getValue(searchLoad.columns[1]) || ' ';
+                        var column03 = result.getValue(searchLoad.columns[2]) || ' ';
+                        var column04 = result.getValue(searchLoad.columns[3]) || ' ';
+                        var column05 = result.getValue(searchLoad.columns[4]) || ' ';
+                        var column06 = result.getText(searchLoad.columns[5]) || ' ';
+                        var column07 = result.getText(searchLoad.columns[6]) || ' ';
+                        var column15 = result.getText(searchLoad.columns[14]) || ' ';
+                        var column16 = result.getValue(searchLoad.columns[15]) || '0';
+                        var column17 = result.getValue(searchLoad.columns[16]) || '0.00';
+                        var column19 = result.getText(searchLoad.columns[18]) || ' ';
+                        //<I> rhuaccha: 2024-01-29
+                        var column20 = result.getValue(searchLoad.columns[19]) || ' ';
+                        //<F> rhuaccha: 2024-01-29
+                        //<I> dfernandez: 2024-02-01
+                        var column21 = result.getText(searchLoad.columns[19]) || ' ';
+                        try {
+                            if (column20 == 3) {
+                                multi = (parseFloat(column17) + (parseFloat(column17) * 0.18)).toFixed(2)
+                            } else {
+                                multi = column17
+                            }
+                        } catch (error) {
+                            log.error('Error', 'Error en cálculo por impuesto')
+                        }
+                        //<F> dfernandez: 2024-02-01
+
+                        sublist1.setSublistValue({ id: 'list1_isbn', line: i, value: column02 });
+                        sublist1.setSublistValue({ id: 'list1_vendor', line: i, value: column19 });
+                        sublist1.setSublistValue({ id: 'list1_nombre', line: i, value: column03 });
+                        sublist1.setSublistValue({ id: 'list1_autor', line: i, value: column04 });
+                        sublist1.setSublistValue({ id: 'list1_editorial', line: i, value: column05 });
+                        sublist1.setSublistValue({ id: 'list1_categoria', line: i, value: column06 });
+                        sublist1.setSublistValue({ id: 'list1_subcategoria', line: i, value: column07 });
+                        sublist1.setSublistValue({ id: 'list1_ubicacion', line: i, value: column15 });
+                        sublist1.setSublistValue({ id: 'list1_cant_disponible', line: i, value: column16 });
+                        sublist1.setSublistValue({ id: 'list1_precio_base', line: i, value: column17 });
+                        //<I> dfernandez: 2024-02-01
+                        sublist1.setSublistValue({ id: 'list1_pvp_final', line: i, value: multi });
+                        //<F> dfernandez: 2024-02-01
+                        //<I> rhuaccha: 2024-01-29
+                        sublist1.setSublistValue({ id: 'list1_prog_fiscal', line: i, value: column21 });
+                        //<F> rhuaccha: 2024-01-29
+                        
+                        i++
+                        return true
+                    });
+                }
+                //}
 
                 context.response.writePage(form);
 
