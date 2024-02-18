@@ -92,12 +92,25 @@ define(['N/ui/serverWidget', 'N/search', 'N/redirect', 'N/file'], function (serv
                 var f_vendor = form.addField({ id: 'custpage_vendor', type: 'select', label: 'PROVEEDOR', container: 'groupFilter' });
                 f_vendor.addSelectOption({ value: '', text: 'Seleccione...' });
                 var resultsVendors = obtenerProveedores();
-                resultsVendors.run().each(function (result) {
-                    var internalid = result.id;
-                    var name = result.getValue(resultsVendors.columns[1]);
-                    f_vendor.addSelectOption({ value: internalid, text: name });
-                    return true;
+                var pageVen = 0;
+                var pagedVendor = resultsVendors.runPaged({ pageSize: 1000 });
+
+                pagedVendor.pageRanges.forEach(function (pageRange) {
+                    pageVen = pagedVendor.fetch({ index: pageRange.index });
+                    log.debug('pageVen', pageVen);
+                    pageVen.data.forEach(function (result) {
+                        var internalid = result.id;
+                        var name = result.getValue(resultsVendors.columns[1]);
+                        f_vendor.addSelectOption({ value: internalid, text: name });
+                        return true
+                    });
                 });
+                // resultsVendors.run().each(function (result) {
+                //     var internalid = result.id;
+                //     var name = result.getValue(resultsVendors.columns[1]);
+                //     f_vendor.addSelectOption({ value: internalid, text: name });
+                //     return true;
+                // });
                 f_vendor.defaultValue = p_vendor;
 
                 // CAMPO FLAG
@@ -214,7 +227,7 @@ define(['N/ui/serverWidget', 'N/search', 'N/redirect', 'N/file'], function (serv
                         //<I> rhuaccha: 2024-01-29
                         sublist1.setSublistValue({ id: 'list1_prog_fiscal', line: i, value: column21 });
                         //<F> rhuaccha: 2024-01-29
-                        
+
                         i++
                         return true
                     });
