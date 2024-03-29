@@ -1,0 +1,225 @@
+<?xml version="1.0"?>
+<!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+    <!--For Invoice IV-->
+
+    <head>
+        <!-- <#assign
+            font_lucidasans_regular="https://6785603-sb1.app.netsuite.com/core/media/media.nl?id=4868&c=6785603_SB1&h=BHZTsjEgGlZjMaEfxw8NWzEbWpkJhLYL2Gs9Avx1s-pYpI_7&_xt=.ttf" />
+        <link name="LucidaSans" type="font" subtype="TrueType" src="${font_lucidasans_regular?html}" bytes="2" /> -->
+        <#assign
+            font_lucidasans_regular="https://6785603-sb1.app.netsuite.com/core/media/media.nl?id=10517&c=&h=lqc6PGoQBR1g31ijPeOAxNBky52vHUM4WhcxpWi5UwUOtIwa&_xt=.ttf" />
+        <link name="LucidaSans" type="font" subtype="TrueType" src="${font_lucidasans_regular?html}" bytes="2" />
+        <!-- <link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}"
+            src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}"
+            src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+        <#if .locale=="zh_CN">
+            <link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}"
+                src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+            <#elseif .locale=="zh_TW">
+                <link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}"
+                    src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+                <#elseif .locale=="ja_JP">
+                    <link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}"
+                        src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+                    <#elseif .locale=="ko_KR">
+                        <link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}"
+                            src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+                        <#elseif .locale=="th_TH">
+                            <link name="NotoSansThai" type="font" subtype="opentype"
+                                src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+        </#if> -->
+        <macrolist>
+            <!-- <macro id="nlheader">
+                <table class="header" style="width: 100%;">
+                    <tr>
+                        <td rowspan="3">
+                            <#if companyInformation.logoUrl?length !=0><img src="${companyInformation.logoUrl}"
+                                    style="float: left; margin: 7px; width: 100px; height: 50px;" /> </#if> <span
+                                class="nameandaddress">${companyInformation.companyName}</span><br /><span
+                                class="nameandaddress">${companyInformation.addressText}</span>
+                        </td>
+                        <td align="right"><span class="title">${record@title}</span></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="number">#${record.tranid}</span></td>
+                    </tr>
+                    <tr>
+                        <td align="right">${record.trandate}</td>
+                    </tr>
+                </table>
+            </macro> -->
+        </macrolist>
+        <style type="text/css">
+            * {
+                font-size: 9px;
+                /* <#if .locale=="zh_CN">font-family: NotoSans, NotoSansCJKsc, sans-serif;
+                <#elseif .locale=="zh_TW">font-family: NotoSans, NotoSansCJKtc, sans-serif;
+                <#elseif .locale=="ja_JP">font-family: NotoSans, NotoSansCJKjp, sans-serif;
+                <#elseif .locale=="ko_KR">font-family: NotoSans, NotoSansCJKkr, sans-serif;
+                <#elseif .locale=="th_TH">font-family: NotoSans, NotoSansThai, sans-serif;
+                <#else>font-family: NotoSans, sans-serif;
+                </#if> */
+                font-family: LucidaSans;
+            }
+
+            table {
+                /* font-size: 5.5pt; */
+                table-layout: fixed;
+                /* font-weight: bold; */
+            }
+
+            /* th {
+                font-weight: bold;
+                font-size: 8pt;
+                vertical-align: middle;
+                padding: 5px 6px 3px;
+                background-color: #e3e3e3;
+                color: #333333;
+            }  */
+            /*
+            td {
+                padding: 4px 6px;
+            }
+
+            td p {
+                align: left
+            }
+
+            b {
+                font-weight: bold;
+                color: #333333;
+            }
+
+            table.header td {
+                padding: 0;
+                font-size: 10pt;
+            }
+
+            table.footer td {
+                padding: 0;
+                font-size: 8pt;
+            }
+
+            table.itemtable th {
+                padding-bottom: 10px;
+                padding-top: 10px;
+            }
+
+            table.body td {
+                padding-top: 2px;
+            }
+
+            table.total {
+                page-break-inside: avoid;
+            }
+
+            tr.totalrow {
+                background-color: #e3e3e3;
+                line-height: 200%;
+            }
+
+            td.totalboxtop {
+                font-size: 12pt;
+                background-color: #e3e3e3;
+            }
+
+            td.addressheader {
+                font-size: 8pt;
+                padding-top: 6px;
+                padding-bottom: 2px;
+            }
+
+            td.address {
+                padding-top: 0;
+            }
+
+            td.totalboxmid {
+                font-size: 28pt;
+                padding-top: 20px;
+                background-color: #e3e3e3;
+            }
+
+            span.title {
+                font-size: 28pt;
+            }
+
+            span.number {
+                font-size: 16pt;
+            }
+
+            span.itemname {
+                font-weight: bold;
+                line-height: 150%;
+            } */
+
+            hr {
+                width: 100%;
+                color: #d3d3d3;
+                background-color: #d3d3d3;
+                height: 1px;
+            }
+        </style>
+    </head>
+
+    <body header-height="10%" footer="nlfooter" footer-height="20pt" padding="0.6in 5.7in 1.5in 0in" size="Letter">
+        <!-- <body header-height="10%" footer="nlfooter" footer-height="20pt" padding="0.6in 0.9in 1.5in 0.2in" size="Letter"> -->
+        <table class="body" style="width: 100%; margin-top: 10px;">
+            <tr>
+                <td colspan="24" class="coltable1">COPIA DOC: ${record.tranid}</td>
+            </tr>
+            <tr>
+                <td colspan="24" align="center" class="coltable1"><span style="text-transform: uppercase;">LIBRERÍA
+                        ${record.location}</span></td>
+            </tr>
+            <tr>
+                <td colspan="5" class="border">Cliente:</td>
+                <td colspan="8" class="border">${record.entity.vatregnumber}</td>
+                <td colspan="2" class="border"></td>
+                <td colspan="9" class="border" align="right">${record.trandate} ${record.custbody_pe_flag_hora_emision}
+                </td>
+            </tr>
+        </table>
+        <#if record.item?has_content>
+            <table class="itemtable" style="width: 100%; margin-top: 6px;">
+                <!-- start items -->
+                <#list record.item as item>
+                    <#if item_index==0>
+                        <thead>
+                            <tr>
+                                <th align="left" colspan="8">ISBN</th>
+                                <th align="center" colspan="4">Can</th>
+                                <th align="center" colspan="4">P.Unit</th>
+                                <th align="center" colspan="4">%Ds</th>
+                                <th align="right" colspan="5">Total S/.</th>
+                            </tr>
+                        </thead>
+                    </#if>
+                    <#if item.itemtype!="Discount" && item.itemtype!="Subtotal" && item.itemtype!="Service">
+                        <tr>
+                            <td align="left" colspan="8">${item.item?string?substring(0, 9)}</td>
+                            <td align="center" colspan="4">${item.quantity}</td>
+                            <td align="center" colspan="4">${item.rate?html?replace('PEN','')}</td>
+                            <#if item.custcol_pe_discount_line?length !=0>
+                                <td align="center" colspan="4">${item.custcol_pe_discount_line}</td>
+                                <#else>
+                                    <td align="center" colspan="4">0.0</td>
+                            </#if>
+
+                            <td align="right" colspan="5">${item.grossamt?html?replace('PEN','')}</td>
+                        </tr>
+                        <tr>
+                            <td align="left" colspan="25">${item.description}</td>
+                        </tr>
+                    </#if>
+                </#list><!-- end items -->
+            </table>
+        </#if>
+        <table class="total" style="width: 100%; margin-top: 0px;">
+            <tr>
+                <td colspan="10"></td>
+                <td align="right" colspan="15">${record.total?html?replace('PEN','')}</td>
+            </tr>
+        </table>
+    </body>
+</pdf>

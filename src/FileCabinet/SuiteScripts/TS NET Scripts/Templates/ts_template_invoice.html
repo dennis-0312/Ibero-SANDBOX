@@ -1,0 +1,440 @@
+<?xml version="1.0"?>
+<!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+
+    <head>
+        <link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}"
+            src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}"
+            src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+        <#if .locale=="zh_CN">
+            <link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}"
+                src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+            <#elseif .locale=="zh_TW">
+                <link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}"
+                    src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+                <#elseif .locale=="ja_JP">
+                    <link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}"
+                        src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+                    <#elseif .locale=="ko_KR">
+                        <link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}"
+                            src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+                        <#elseif .locale=="th_TH">
+                            <link name="NotoSansThai" type="font" subtype="opentype"
+                                src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+        </#if>
+        <macrolist>
+            <macro id="nlheader">
+                <table style="width:100%">
+                    <tr>
+                        <!-- <td style="width: 680px;"><strong
+                                style="font-size: 16px;">${subsidiary.legalname?upper_case}</strong></td> -->
+                        <td rowspan="2" style="width: 680px;">
+                            <#if companyInformation.logoUrl?length !=0><img src="${companyInformation.logoUrl}"
+                                    style="float: left; width: 250px; height: 40px;" /></#if>
+                        </td>
+                        <td align="center"
+                            style="width: 342px; padding-top: 10px; border-top: 2px solid rgb(0, 0, 0); border-right: 2px solid rgb(0, 0, 0); border-left: 2px solid rgb(0, 0, 0);">
+                            <span style="font-size: 16px;">RUC N&deg;&nbsp;${subsidiary.federalidnumber}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!-- <td style="width: 680px;"><span
+                                style="text-transform: uppercase;">${subsidiary.mainaddress.addr1}&nbsp;${subsidiary.mainaddress.addr2}
+                                ${subsidiary.mainaddress.state}&nbsp;- ${subsidiary.mainaddress.addr3}&nbsp;-
+                                ${subsidiary.mainaddress.city}</span>
+                        </td> -->
+                        <td align="center"
+                            style="width: 342px; border-right: 2px solid rgb(0, 0, 0); border-left: 2px solid rgb(0, 0, 0);">
+                            <span style="font-size: 16px; ">
+                                <#if record.custbody_pe_document_type=="Boleta de Venta">
+                                    BOLETA
+                                    <#elseif record.custbody_pe_document_type=="Factura">
+                                        FACTURA
+                                        <#elseif record.custbody_pe_document_type=="Nota de Credito">
+                                            NOTA DE CRÉDITO
+                                            <#elseif record.custbody_pe_document_type=="Nota de Debito">
+                                                NOTA DE DÉBITO
+                                </#if>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 680px;"><span
+                                style="text-transform: uppercase;">${subsidiary.mainaddress.addr1}&nbsp;${subsidiary.mainaddress.addr2}
+                                ${subsidiary.mainaddress.state}&nbsp;- ${subsidiary.mainaddress.addr3}&nbsp;-
+                                ${subsidiary.mainaddress.city}</span>
+                        </td>
+                        <td align="center"
+                            style="width: 342px; border-right: 2px solid rgb(0, 0, 0); border-left: 2px solid rgb(0, 0, 0);">
+                            <span style="font-size: 16px;">ELECTRONICA</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 680px;">&nbsp;</td>
+                        <td align="center"
+                            style="width: 342px; font-size: 16px; padding-bottom: 10px; border-left: 2px solid rgb(0, 0, 0); border-bottom: 2px solid rgb(0, 0, 0); border-right: 2px solid rgb(0, 0, 0);">
+                            <span>${record.tranid}</span>
+                        </td>
+                    </tr>
+                </table>
+            </macro>
+            <macro id="nlfooter">
+                <table class="footer" style="width: 100%;">
+                    <tr>
+                        <td align="right">
+                            <pagenumber /> de
+                            <totalpages />
+                        </td>
+                    </tr>
+                </table>
+            </macro>
+        </macrolist>
+        <style type="text/css">
+            * {
+                <#if .locale=="zh_CN">font-family: NotoSans, NotoSansCJKsc, sans-serif;
+                <#elseif .locale=="zh_TW">font-family: NotoSans, NotoSansCJKtc, sans-serif;
+                <#elseif .locale=="ja_JP">font-family: NotoSans, NotoSansCJKjp, sans-serif;
+                <#elseif .locale=="ko_KR">font-family: NotoSans, NotoSansCJKkr, sans-serif;
+                <#elseif .locale=="th_TH">font-family: NotoSans, NotoSansThai, sans-serif;
+                <#else>font-family: NotoSans, sans-serif;
+                </#if>
+            }
+
+            table {
+                font-size: 9pt;
+                table-layout: fixed;
+            }
+
+            th {
+                font-weight: bold;
+                font-size: 8pt;
+                vertical-align: middle;
+                padding: 3px 3px 3px 3px;
+                /* background-color: #e3e3e3; */
+                color: #333333;
+            }
+
+            td {
+                padding: 4px 4px;
+            }
+
+            td p {
+                align: left
+            }
+
+            b {
+                font-weight: bold;
+                color: #333333;
+            }
+
+            table.header td {
+                padding: 0px;
+                font-size: 10pt;
+            }
+
+            table.footer td {
+                padding: 0px;
+                font-size: 8pt;
+            }
+
+            table.itemtable th {
+                padding-bottom: 10px;
+                padding-top: 10px;
+            }
+
+            table.body td {
+                padding-top: 2px;
+            }
+
+            table.total {
+                page-break-inside: avoid;
+            }
+
+            tr.totalrow {
+                background-color: #e3e3e3;
+                line-height: 200%;
+            }
+
+            td.totalboxtop {
+                font-size: 12pt;
+                background-color: #e3e3e3;
+            }
+
+            td.addressheader {
+                font-size: 8pt;
+                padding-top: 6px;
+                padding-bottom: 2px;
+            }
+
+            td.address {
+                padding-top: 0px;
+            }
+
+            td.totalboxmid {
+                font-size: 28pt;
+                padding-top: 20px;
+                background-color: #e3e3e3;
+            }
+
+            td.totalboxbot {
+                background-color: #e3e3e3;
+                font-weight: bold;
+            }
+
+            span.title {
+                font-size: 28pt;
+            }
+
+            span.number {
+                font-size: 16pt;
+            }
+
+            span.itemname {
+                font-weight: bold;
+                line-height: 150%;
+            }
+
+            hr {
+                width: 100%;
+                color: #d3d3d3;
+                background-color: #d3d3d3;
+                height: 1px;
+            }
+
+            .borderth {
+                border: 0.1px solid #000;
+            }
+
+            .border {
+                border-right: 0.1px solid #000;
+                border-left: 0.1px solid #000;
+            }
+
+            .borderdown {
+                border-right: 0.1px solid #000;
+                border-left: 0.1px solid #000;
+                border-bottom: 0.1px solid #000;
+            }
+        </style>
+    </head>
+
+    <body header="nlheader" header-height="15%" footer="nlfooter" footer-height="20pt" padding="0.5in 0.5in 0.5in 0.5in"
+        size="Letter-LANDSCAPE">
+        <#setting number_format="##0.00;##0.00">
+            <table style="width:100%;">
+                <tr>
+                    <td style="width: 173px;"><strong>Nombre/Raz&oacute;n Social:</strong></td>
+                    <td colspan="2" style="width: 407px;">
+                        <#if record.custbody_pe_document_type=="Factura">
+                        <span>${record.entity.companyname}</span>
+                        <#else> 
+                        <span>${record.entity.firstname}&nbsp;${record.entity.lastname}</span>
+                        </#if>
+                    </td>
+                    <td style="width: 152px;"><strong>RUC:</strong></td>
+                    <td style="width: 147px;"><span>${record.vatregnum}</span></td>
+                    <td style="width: 111px;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="width: 173px;"><strong>Direcci&oacute;n:</strong></td>
+                    <td colspan="2" style="width: 407px;"><span
+                            style="text-transform: uppercase;">${record.shipaddr1}&nbsp;${record.shipaddr2}&nbsp;</span><br /><span
+                            style="text-transform: uppercase;">${record.shipstate} -
+                            ${record.shipaddr3} - ${record.shipcity}</span></td>
+                    <td style="width: 152px;"><strong>Fecha Emisi&oacute;n:</strong></td>
+                    <td style="width: 147px;"><span>${record.trandate}</span></td>
+                    <td align="center" style="width: 111px; border: 1px solid rgb(0, 0, 0);"><span
+                            style="font-size: 16px;">CONTADO</span></td>
+                </tr>
+                <tr>
+                    <td style="width: 173px;"><strong>Moneda:</strong></td>
+                    <td colspan="2" style="width: 407px;"><span>${record.currencysymbol}-${record.currencyname}</span>
+                    </td>
+                    <td style="width: 152px;"><strong>Orden de Compra:</strong></td>
+                    <td style="width: 147px;">${record.createdfrom?html?replace('Sales Order #','')?replace('Orden de venta #','')}</td>
+                    <td style="width: 111px;">&nbsp;</td>
+                </tr>
+              <tr>
+                    <td style="width: 173px;"><strong>Placa:</strong></td>
+                    <td colspan="2" style="width: 407px;"><span>${record.custbody_pe_car_plate}</span>
+                    </td>
+                    <td style="width: 111px;">&nbsp;</td>
+                    <td style="width: 111px;">&nbsp;</td>
+                    <td style="width: 111px;">&nbsp;</td>
+                </tr>
+            </table>
+
+            <#if record.item?has_content>
+                <table style="width:100%;">
+                    <#list record.item as item>
+                        <#if item_index==0>
+                            <thead>
+                                <tr>
+                                    <th scope="col" align="center" class="borderth">Item</th>
+                                    <th scope="col" colspan="9" align="center" class="borderth">Código/Descripción</th>
+                                    <th scope="col" colspan="2" align="center" class="borderth">Unit.</th>
+                                    <th scope="col" colspan="2" align="center" class="borderth">Cantidad</th>
+                                    <th scope="col" colspan="2" align="center" class="borderth">V.Unitario</th>
+                                    <th scope="col" align="center" class="borderth">%Desc</th>
+                                    <th scope="col" colspan="2" align="center" class="borderth">Valor Venta</th>
+                                    <th scope="col" colspan="2" align="center" class="borderth">Igv</th>
+                                    <th scope="col" colspan="2" align="center" class="borderth">Precio Venta</th>
+                                </tr>
+                            </thead>
+                        </#if>
+                        <tr>
+                            <td align="center" class="border">${item?counter?html?replace('.00','')?replace(',00','')}</td>
+                            <td colspan="9" align="left" class="border">${item.item}</td>
+                            <td colspan="2" align="left" class="border" style="font-size: 10px;">${item.units}</td>
+                            <td colspan="2" align="right" class="border">${item.quantity}</td>
+                            <#if item.itemtype=="Discount">
+                            <td colspan="2" align="right" class="border">&nbsp;</td>
+                            <td align="right" class="border"> ${item.rate?html?replace('PEN','')}</td>
+                            <#else>
+                            <td colspan="2" align="right" class="border">${item.rate?html?replace('PEN','')}</td>
+                            <td align="right" class="border">&nbsp;</td>
+                            </#if>
+                            <td colspan="2" align="right" class="border">${item.amount?html?replace('PEN','')}</td>
+                            <td colspan="2" align="right" class="border">${item.tax1amt?html?replace('PEN','')}</td>
+                            <td colspan="2" align="right" class="border">${item.grossamt?html?replace('PEN','')}</td>
+                        </tr>
+                    </#list>
+                    <tr>
+                        <td class="border">&nbsp;</td>
+                        <td colspan="9" class="border">&nbsp;</td>
+                        <td colspan="2" class="border">&nbsp;</td>
+                        <td colspan="2" class="border">&nbsp;</td>
+                        <td colspan="2" class="border">&nbsp;</td>
+                        <td class="border">&nbsp;</td>
+                        <td colspan="2" class="border">&nbsp;</td>
+                        <td colspan="2" class="border">&nbsp;</td>
+                        <td colspan="2" class="border">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="border">&nbsp;</td>
+                        <td colspan="9" class="border">&nbsp;</td>
+                        <td colspan="2" class="border">&nbsp;</td>
+                        <td colspan="2" class="border">&nbsp;</td>
+                        <td colspan="2" class="border">&nbsp;</td>
+                        <td class="border">&nbsp;</td>
+                        <td colspan="2" class="border">&nbsp;</td>
+                        <td colspan="2" class="border">&nbsp;</td>
+                        <td colspan="2" class="border">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="borderdown">&nbsp;</td>
+                        <td colspan="9" class="borderdown">&nbsp;</td>
+                        <td colspan="2" class="borderdown">&nbsp;</td>
+                        <td colspan="2" class="borderdown">&nbsp;</td>
+                        <td colspan="2" class="borderdown">&nbsp;</td>
+                        <td class="borderdown">&nbsp;</td>
+                        <td colspan="2" class="borderdown">&nbsp;</td>
+                        <td colspan="2" class="borderdown">&nbsp;</td>
+                        <td colspan="2" class="borderdown">&nbsp;</td>
+                    </tr>
+                </table>
+            </#if>
+
+            <table style="width:100%; margin-top: 6px;">
+                <tr>
+                    <td colspan="15" align="left"><strong>Información Adicional</strong></td>
+                    <td colspan="2" align="left">Op.Gravada</td>
+                    <td align="left">S/</td>
+                    <td colspan="2" align="right">
+                        <#function spe>
+                            <#assign array=[]>
+                                <#local sum=0>
+                                    <#list record.item as item>
+                                        <#if item.taxcode=="IGV_PE:S-PE">
+                                            <#assign array +=["${item.amount?html?replace('PEN','')?replace(',','.')}"]>
+                                        </#if>
+                                    </#list>
+                                    <#list array as item>
+                                        <#local sum +=(item?number)>
+                                    </#list>
+                                    <#return sum>
+                        </#function>
+                        ${spe()}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" align="left"><span>Número de pedido:</span></td>
+                    <td colspan="11" align="left">${record.otherrefnum} / ${record.createdfrom?html?replace('Sales Order #','')?replace('Orden de venta #','')}</td>
+                    <td colspan="2" align="left">I.G.V</td>
+                    <td align="left">S/</td>
+                    <td colspan="2" align="right">${record.taxtotal?html?replace('PEN','')}</td>
+                </tr>
+                <tr>
+                    <td colspan="4" align="left"><span>Vendedor colocador del pedido:</span></td>
+                    <td colspan="11" align="left">${record.salesrep}</td>
+                    <td colspan="2" align="left">Op.Inafecta</td>
+                    <td align="left">S/</td>
+                    <td colspan="2" align="right">
+                        <#function inafpe>
+                            <#assign array=[]>
+                                <#local sum=0>
+                                    <#list record.item as item>
+                                        <#if item.taxcode=="IGV_PE:Inaf-PE">
+                                            <#assign array +=["${item.amount?html?replace('PEN','')?replace(',','.')}"]>
+                                        </#if>
+                                    </#list>
+                                    <#list array as item>
+                                        <#local sum +=(item?number)>
+                                    </#list>
+                                    <#return sum>
+                                        <!-- <#if sum!=0>
+                                    <#return sum>
+                                        <#else>
+                                            <#return " ">
+                                </#if> -->
+                        </#function>
+                        ${inafpe()}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" align="left"><span>Condición de Venta:</span></td>
+                    <td colspan="11" align="left">Contado</td>
+                    <td colspan="2" align="left">Op.Exonerada</td>
+                    <td align="left">S/</td>
+                    <td colspan="2" align="right">
+                        <#function epe>
+                            <#assign array=[]>
+                                <#local sum=0>
+                                    <#list record.item as item>
+                                        <#if item.taxcode=="IGV_PE:E-PE">
+                                            <#assign array +=["${item.amount?html?replace('PEN','')?replace(',','.')}"]>
+                                        </#if>
+                                    </#list>
+                                    <#list array as item>
+                                        <#local sum +=(item?number)>
+                                    </#list>
+                                    <#return sum>
+                        </#function>
+                        ${epe()}
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td colspan="2" align="left"><span style="font-size: 10px;">IMPORTE TOTAL</span></td>
+                    <td align="left">S/</td>
+                    <td colspan="2" align="right" style="border-top: 1px solid #000;">
+                        ${record.total?html?replace('PEN','')}
+                    </td>
+                </tr>
+            </table>
+    </body>
+</pdf>

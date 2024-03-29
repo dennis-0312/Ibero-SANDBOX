@@ -1,0 +1,506 @@
+<?xml version="1.0"?>
+<!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+    <!--For Invoice IV-->
+    <head>
+        <#assign font_lucidasans_regular="https://6785603-sb1.app.netsuite.com/core/media/media.nl?id=4868&c=6785603_SB1&h=BHZTsjEgGlZjMaEfxw8NWzEbWpkJhLYL2Gs9Avx1s-pYpI_7&_xt=.ttf" />
+        <link name="LucidaSans" type="font" subtype="TrueType" src="${font_lucidasans_regular?html}" bytes="2" />
+        <!-- <link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}"
+            src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}"
+            src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+        <#if .locale=="zh_CN">
+            <link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}"
+                src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+            <#elseif .locale=="zh_TW">
+                <link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}"
+                    src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+                <#elseif .locale=="ja_JP">
+                    <link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}"
+                        src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+                    <#elseif .locale=="ko_KR">
+                        <link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}"
+                            src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+                        <#elseif .locale=="th_TH">
+                            <link name="NotoSansThai" type="font" subtype="opentype"
+                                src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+        </#if> -->
+        <macrolist>
+            <!-- <macro id="nlheader">
+                <table class="header" style="width: 100%;">
+                    <tr>
+                        <td rowspan="3">
+                            <#if companyInformation.logoUrl?length !=0><img src="${companyInformation.logoUrl}"
+                                    style="float: left; margin: 7px; width: 100px; height: 50px;" /> </#if> <span
+                                class="nameandaddress">${companyInformation.companyName}</span><br /><span
+                                class="nameandaddress">${companyInformation.addressText}</span>
+                        </td>
+                        <td align="right"><span class="title">${record@title}</span></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="number">#${record.tranid}</span></td>
+                    </tr>
+                    <tr>
+                        <td align="right">${record.trandate}</td>
+                    </tr>
+                </table>
+            </macro> -->
+            <macro id="nlfooter">
+                <table class="footer" style="width: 100%;">
+                    <tr>
+                        <td class="border">---------------------------------------------------</td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <#if record.custbody_pe_document_type=="Factura">
+                                FACTURA VENTA
+                                <#else>
+                                    BOLETA VENTA
+                            </#if>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!-- <td style="margin-top: -10px; margin-left: 55px;"> -->
+                        <td style="margin-top: -13px; margin-left: 55px;">
+                            <barcode codetype="qrcode" height="100px" width="100px" showtext="true"
+                                value="${record.tranid}" />
+                        </td>
+                        <!-- <td align="right">
+                            <pagenumber /> of
+                            <totalpages />
+                        </td> -->
+                    </tr>
+                    <tr>
+                        <td align="rigth">Estimado Cliente <br /> NO SE ACEPTAN DEVOLUCIONES <br /> Todo cambio se
+                            efectuará con el ticket hasta 7 días.</td>
+                    </tr>
+                </table>
+            </macro>
+        </macrolist>
+        <style type="text/css">
+            * {
+                /* <#if .locale=="zh_CN">font-family: NotoSans, NotoSansCJKsc, sans-serif;
+                <#elseif .locale=="zh_TW">font-family: NotoSans, NotoSansCJKtc, sans-serif;
+                <#elseif .locale=="ja_JP">font-family: NotoSans, NotoSansCJKjp, sans-serif;
+                <#elseif .locale=="ko_KR">font-family: NotoSans, NotoSansCJKkr, sans-serif;
+                <#elseif .locale=="th_TH">font-family: NotoSans, NotoSansThai, sans-serif;
+                <#else>font-family: NotoSans, sans-serif;
+                </#if> */
+                font-family: LucidaSans;
+            }
+
+            table {
+                font-size: 5.5pt;
+                table-layout: fixed;
+            }
+
+            /*th {
+                font-weight: bold;
+                font-size: 8pt;
+                vertical-align: middle;
+                padding: 5px 6px 3px;
+                background-color: #e3e3e3;
+                color: #333333;
+            }
+
+            td {
+                padding: 4px 6px;
+            }
+
+            td p {
+                align: left
+            }
+
+            b {
+                font-weight: bold;
+                color: #333333;
+            }
+
+            table.header td {
+                padding: 0;
+                font-size: 10pt;
+            }
+
+            table.footer td {
+                padding: 0;
+                font-size: 8pt;
+            }
+
+            table.itemtable th {
+                padding-bottom: 10px;
+                padding-top: 10px;
+            }
+
+            table.body td {
+                padding-top: 2px;
+            }
+
+            table.total {
+                page-break-inside: avoid;
+            }
+
+            tr.totalrow {
+                background-color: #e3e3e3;
+                line-height: 200%;
+            }
+
+            td.totalboxtop {
+                font-size: 12pt;
+                background-color: #e3e3e3;
+            }
+
+            td.addressheader {
+                font-size: 8pt;
+                padding-top: 6px;
+                padding-bottom: 2px;
+            }
+
+            td.address {
+                padding-top: 0;
+            }
+
+            td.totalboxmid {
+                font-size: 28pt;
+                padding-top: 20px;
+                background-color: #e3e3e3;
+            }
+
+            span.title {
+                font-size: 28pt;
+            }
+
+            span.number {
+                font-size: 16pt;
+            }
+
+            span.itemname {
+                font-weight: bold;
+                line-height: 150%;
+            } */
+
+            hr {
+                width: 100%;
+                color: #d3d3d3;
+                background-color: #d3d3d3;
+                height: 1px;
+            }
+        </style>
+    </head>
+
+    <body header-height="10%" footer="nlfooter" footer-height="20pt" padding="0.6in 5.9in 1.5in 0.2in" size="Letter">
+        <!-- <body header-height="10%" footer="nlfooter" footer-height="20pt" padding="0.6in 0.9in 1.5in 0.2in" size="Letter"> -->
+        <table style="width: 100%; margin-top: 10px;">
+            <tr>
+                <td align="center" class="coltable1">Ibero AG SAC-IBERO LIBRERIAS</td>
+            </tr>
+            <tr>
+                <td align="center" class="coltable1">Dirección Fiscal:</td>
+            </tr>
+            <tr>
+                <td class="coltable1">
+                    <p align="center"> AV. OSCAR R.BENAVIDES 500 (EX AV DIAGONAL ESQ CON CALLE BERLIN)
+                        LIMA-LIMA-MIRAFLORES</p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" class="coltable1"><span style="text-transform: uppercase;" >LIBRERIA ${record.location}</span></td>
+            </tr>
+            <tr>
+                <td class="coltable1">
+                    <p align="center">${record.custbody_pe_flag_address_location}</p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" class="coltable1">R.U.C 20295754444</td>
+            </tr>
+            <tr>
+                <td align="center" class="coltable1">Tel: 242-2798</td>
+            </tr>
+            <tr>
+                <td align="center" class="coltable1">
+                    <#if record.custbody_pe_document_type=="Factura">
+                        FACTURA DE VENTA ELECTRONICA
+                        <#else>
+                            BOLETA DE VENTA ELECTRONICA
+                    </#if>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" class="coltable1">${record.tranid}</td>
+            </tr>
+        </table>
+
+        <table class="body" style="width: 100%; margin-top: 10px;">
+            <tr>
+                <td colspan="7" class="border">FECHA EMISION:</td>
+                <td colspan="6" class="border">${record.trandate}</td>
+                <td colspan="7" class="border">HORA EMISION:</td>
+                <td colspan="4" class="border">${record.custbody_pe_flag_hora_emision}</td>
+            </tr>
+            <tr>
+                <td colspan="7" class="border">CLIENTE:</td>
+                <#if record.location=="Ibero Aeropuerto">
+                    <td colspan="17" class="border">${record.custbody_il_nombre} 
+                        ${record.custbody_il_numero_vuelo} ${record.custbody_il_pasaporte}
+                    </td>
+                <#else>
+                    <td colspan="17" class="border">${record.entity}</td>
+                </#if>
+                <!-- <td colspan="17" class="border">${record.entity}
+                    <#if record.custbody_pe_document_type=="Factura">
+                        <span>${record.entity.companyname}</span>
+                        <#else>
+                            <span>${record.entity.firstname}&nbsp;${record.entity.lastname}</span>
+                    </#if>
+                </td> -->
+            </tr>
+            <tr>
+                <td colspan="7" class="border">RUC/DNI:</td>
+                <td colspan="17" class="border">${record.entity.vatregnumber}</td>
+            </tr>
+            <tr>
+                <td colspan="7" class="border">DIRECCION:</td>
+                <#if record.location=="Ibero Aeropuerto">
+                <td colspan="17" class="border">${record.custbody_il_pais}</td>
+                <#else>
+                    <td colspan="17" class="border">${record.billaddr1}&nbsp;${record.billaddr2}</td>
+                </#if>
+            </tr>
+            <tr>
+                <td colspan="7" class="border">VENDEDOR:</td>
+                <td colspan="6" class="border">${record.custbody_pe_flag_dni_user}</td>
+                <td colspan="7" class="border">CAJA:</td>
+                <td colspan="4" class="border">${user.firstname}:</td>
+            </tr>
+            <tr>
+                <td colspan="13" class="border">REPRESENTANTE DE VENTAS:</td>
+                <td colspan="11" class="border">${record.salesrep}</td>
+            </tr>
+            <tr>
+                <td colspan="24" class="border">---------------------------------------------------</td>
+            </tr>
+            <!-- <tr>
+                <td>${record.paymentmethod}</td>
+                <td>${record.otherrefnum}</td>
+                <td>${record.job}</td>
+                <td>${record.shipmethod}</td>
+            </tr> -->
+        </table>
+        <#if record.item?has_content>
+            <table class="itemtable" style="width: 100%; margin-top: 6px;">
+                <!-- start items -->
+                <#list record.item as item>
+                    <#if item_index==0>
+                        <thead>
+                            <tr>
+                                <th align="left" colspan="6">CODIGO <br /> TITULO</th>
+                                <th align="center" colspan="4">CANT.</th>
+                                <th align="center" colspan="5">P.UNIT.</th>
+                                <th align="center" colspan="5">DSCTO</th>
+                                <th align="right" colspan="5">TOTAL</th>
+                            </tr>
+                            <tr>
+                                <th colspan="25" class="border" style="margin-top: 6px;">
+                                    ----------------------------------------------------</th>
+                            </tr>
+                        </thead>
+                    </#if>
+                    <#if item.itemtype!="Discount" && item.itemtype!="Subtotal">
+                        <tr>
+                            <#if item.item?length &gt; 11>
+                                <td align="left" colspan="6">${item.item?string?substring(0, 11)}</td>
+                                <#else>
+                                    <td align="left" colspan="6">${item.item}</td>
+                            </#if>
+                            <td align="center" colspan="4">${item.quantity}</td>
+                            <td align="center" colspan="5">${item.rate?html?replace('PEN','')}</td>
+                            <#if item.custcol_pe_discount_line?length != 0>
+                            <td align="center" colspan="5">${item.custcol_pe_discount_line}</td>
+                            <#else>
+                            <td align="center" colspan="5">0.0</td>
+                            </#if>
+                            
+                            <td align="right" colspan="5">${item.grossamt?html?replace('PEN','')}</td>
+                        </tr>
+                        <tr>
+                            <td align="left" colspan="25">${item.description}</td>
+                        </tr>
+                    </#if>
+                </#list><!-- end items -->
+                <!-- <tr>
+                    <td align="left" colspan="6">9788491042747 HERREROS Y ALQUIMISTAS</td>
+                    <td align="center" colspan="4">1</td>
+                    <td align="center" colspan="5">69.00</td>
+                    <td align="center" colspan="5">0.00</td>
+                    <td align="right" colspan="5">69.00</td>
+                </tr>
+                <tr>
+                    <td align="left" colspan="5">329002 MAPAS MENTALES</td>
+                    <td align="center" colspan="5">1</td>
+                    <td align="center" colspan="5">79.00</td>
+                    <td align="center" colspan="5">0.00</td>
+                    <td align="right" colspan="5">79.00</td>
+                </tr>
+                <tr>
+                    <td align="left" colspan="5">400277 BOLSA DE PLASTICO CHICA</td>
+                    <td align="center" colspan="5">1</td>
+                    <td align="center" colspan="5">0.40</td>
+                    <td align="center" colspan="5">0.00</td>
+                    <td align="right" colspan="5">0.40</td>
+                </tr> -->
+                <tr>
+                    <td colspan="25" class="border">---------------------------------------------------</td>
+                </tr>
+            </table>
+        </#if>
+        <table class="total" style="width: 100%; margin-top: 0px;">
+            <tr>
+                <td colspan="10">OP. GRAVADAS</td>
+                <td align="right" colspan="15">
+                    <#function spe>
+                        <#assign array=[]>
+                            <#local sum=0>
+                                <#list record.item as item>
+                                    <#if item.taxcode=="IGV_PE:S-PE" && item.itemtype!="Discount">
+                                        <#assign array +=["${item.grossamt?html?replace('PEN','')?replace(',','')}"]>
+                                    </#if>
+                                </#list>
+                                <#list array as item>
+                                    <#local sum +=(item?number)>
+                                </#list>
+                                <#return sum>
+                    </#function>
+                    ${spe()}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="10">OP. EXONERADAS</td>
+                <td align="right" colspan="15">
+                    <#function epe>
+                        <#assign array=[]>
+                            <#local sum=0>
+                                <#list record.item as item>
+                                    <#if item.taxcode=="IGV_PE:E-PE" && item.itemtype!="Discount">
+                                        <#assign array +=["${item.grossamt?html?replace('PEN','')?replace(',','')}"]>
+                                    </#if>
+                                </#list>
+                                <#list array as item>
+                                    <#local sum +=(item?number)>
+                                </#list>
+                                <#return sum>
+                    </#function>
+                    ${epe()}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="10">OP. NO GRAVADAS</td>
+                <td align="right" colspan="15">
+                    <#function inafpe>
+                        <#assign array=[]>
+                            <#local sum=0>
+                                <#list record.item as item>
+                                    <#if item.taxcode=="IGV_PE:Inaf-PE" && item.itemtype!="Discount">
+                                        <#assign array +=["${item.grossamt?html?replace('PEN','')?replace(',','')}"]>
+                                    </#if>
+                                </#list>
+                                <#list array as item>
+                                    <#local sum +=(item?number)>
+                                </#list>
+                                <#return sum>
+                    </#function>
+                    ${inafpe()}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="10">OP. GRATUITAS</td>
+                <td align="right" colspan="15">0</td>
+            </tr>
+            <tr>
+                <td colspan="10">DESCUENTO GLOBAL</td>
+                <td align="right" colspan="15">
+                    <#function discountglobal>
+                        <#assign array=[]>
+                            <#local sum=0>
+                                <#list record.item as item>
+                                    <#if item.itemtype=="Discount" && item.custcol_pe_is_discount_line==false>
+                                        <#assign array+=["${item.grossamt?abs}"]>
+                                    </#if>
+                                </#list>
+                                <#list array as item>
+                                    <#local sum+=(item?number)>
+                                </#list>
+                                <#if sum!=0>
+                                    <#return sum>
+                                        <#else>
+                                            <#return 0>
+                                </#if>  
+                    </#function>
+                    ${discountglobal()}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="10">TOTAL DESCUENTOS</td>
+                <td align="right" colspan="15">
+                    <#function discounts>
+                        <#assign array=[]>
+                            <#local sum=0>
+                                <#list record.item as item>
+                                    <#if item.itemtype=="Discount">
+                                        <#assign array +=["${item.grossamt?abs}"]>
+                                    </#if>
+                                </#list>
+                                <#list array as item>
+                                    <#local sum+=(item?number)>
+                                </#list>
+                                <#if sum!=0>
+                                    <#return sum>
+                                        <#else>
+                                            <#return 0>
+                                </#if> 
+                    </#function>
+                    ${discounts()}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="10">I.G.V. 0%</td>
+                <td align="right" colspan="15">${record.taxtotal?html?replace('PEN','')}</td>
+            </tr>
+            <tr>
+                <td colspan="10">IMPUESTO ICBPER</td>
+                <td align="right" colspan="15">
+                    ${record.custbody_pe_flag_discount_icbper}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="10">IMPORTE TOTAL</td>
+                <td align="right" colspan="15">S/ ${record.total?html?replace('PEN','')}</td>
+            </tr>
+            <tr style="margin-top: 10px;">
+                <td colspan="2">Son:</td>
+                <td colspan="23">${record.custbody_pe_flag_monto_letras}</td>
+            </tr>
+            <tr>
+                <td colspan="25" class="border">---------------------------------------------------</td>
+            </tr>
+            <tr>
+                <td colspan="10">TOTAL A PAGAR:</td>
+                <td align="right" colspan="15">S/ ${record.total?html?replace('PEN','')}</td>
+            </tr>
+            <tr>
+                <td colspan="25" class="border">---------------------------------------------------</td>
+            </tr>
+            <tr>
+                <td colspan="8">OBSERVACIONES:</td>
+                <td align="left" colspan="17">EL COMPROBANTE ELECTRONICO PUEDE <br /> SER CONSULTADO EN <br /><span
+                        style="font-size: 6.5px;">http://factura.ecomprobantes.pe/Ibero</span></td>
+            </tr>
+            <tr>
+                <td colspan="8">TIPO DE CAMBIO:</td>
+                <td align="left" colspan="17"></td>
+            </tr>
+            <tr>
+                <td colspan="8">DOLARES:</td>
+                <td align="left" colspan="17"></td>
+            </tr>
+        </table>
+    </body>
+</pdf>
