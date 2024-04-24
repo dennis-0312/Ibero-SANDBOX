@@ -27,7 +27,6 @@ define(['N/currentRecord', 'N/search', 'N/ui/dialog'], (currentRecord, search, d
                 scriptContext.currentRecord.setValue({ fieldId: 'firstname', value: 'Por generar' });
                 scriptContext.currentRecord.setValue({ fieldId: 'lastname', value: 'Por generar' });
             }
-
         } catch (e) {
             console.log('Error en pageInit', e);
         }
