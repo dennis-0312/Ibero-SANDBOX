@@ -19,7 +19,7 @@ define(['N/currentRecord', 'N/search'], function (currentRecord, search) {
                 objRecord.setValue('tranid', newTranid);
                 return true;
             }
-          	return true;
+            return true;
         } catch (error) {
             console.log('Error-saveRecord: ' + error);
         }

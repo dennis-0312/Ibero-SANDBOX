@@ -13,7 +13,7 @@ Governance points: N/A
  *@NApiVersion 2.1
  *@NScriptType UserEventScript
  */
-define(['N/log', 'N/search', 'N/record'], (log, search, record) => {
+ define(['N/log', 'N/search', 'N/record'], (log, search, record) => {
     const ITEM_RECEIPT = 'itemreceipt';
     const ITEM_FULFILLMENT = 'itemfulfillment';
     const CASH_SALE = 'cashsale';
@@ -26,9 +26,10 @@ define(['N/log', 'N/search', 'N/record'], (log, search, record) => {
     const GUIA_REMISION_REMITENTE = '104';  //(IB=104, BX=56)
     const RCD_MOTIVO_TRASLADO = 'customrecord_pe_codigo_motivo_traslado';
     const PE_Item_Fulfillment_FEL_Template = 4;     //  SB: 4, PR: 4 (IB/BX)
-    const PE_FEL_Sending_Method_Guias = 6;          //  SB: 6, PR: 6 (IB=6, BX=5)
+    const PE_FEL_Sending_Method_Guias = 6;          //  SB: 7, PR: 6 (IB=6, BX=5)
     const PE_Facturacion_Electronica = 2;           // SB: 2, PR: 2 (IB/BX)
     const For_Generation_Status = 1;
+    const FORMULARIO_PE_PREVENTA_ITEM_FULFILLMENT = 130;    //  SB: 130, PR: 
 
 
     const beforeLoad = (context) => {
@@ -38,6 +39,9 @@ define(['N/log', 'N/search', 'N/record'], (log, search, record) => {
             let fieldLookUp = '';
             let typeRecordFrom = '';
             let createdfrom = objRecord.getValue({ fieldId: 'createdfrom' });
+            let IDFormulario = objRecord.getValue({ fieldId: 'customform' });
+            log.error('eventType',eventType);
+            log.error('createdfrom',createdfrom);
             try {
                 if (objRecord.type == ITEM_FULFILLMENT) {
                     objRecord.setValue({ fieldId: 'custbody_pe_document_type', value: GUIA_REMISION_REMITENTE, ignoreFieldChange: true, forceSyncSourcing: true });
@@ -52,7 +56,6 @@ define(['N/log', 'N/search', 'N/record'], (log, search, record) => {
                                 typeRecordFrom = TRANSFER_ORDER;
                             }
                         }
-
                         // AGREGADO PARA LA GUIA DE REMISION ELECTRÓNICA
                         var id_motivo_traslado = '';
                         var tipo_transaccion_origen_busqueda = search.lookupFields({
@@ -61,23 +64,22 @@ define(['N/log', 'N/search', 'N/record'], (log, search, record) => {
                             columns: ['recordtype']
                         });
                         var tipo_transaccion_origen = tipo_transaccion_origen_busqueda['recordtype'];
-    
-                        objRecord.setValue({ fieldId: 'custbody_pe_tipo_conductor', value: 'Principal', ignoreFieldChange: true });
-                        // 1: Venta, 2: Compra,  3:Traslado entre establecimientos de la misma empresa	
-                        if (tipo_transaccion_origen === SALES_ORDER) {
-                            id_motivo_traslado = 1;
-                        } else if (tipo_transaccion_origen === VENDOR_RETURN_AUTHORIZATION) {
-                            id_motivo_traslado = 2;
-                        } else if (tipo_transaccion_origen === TRANSFER_ORDER) {
-                            id_motivo_traslado = 3;
-                        }
-    
-                        objRecord.setValue({ fieldId: 'custbody_pe_motivo_traslado', value: id_motivo_traslado, ignoreFieldChange: true });
-                        objRecord.setValue({ fieldId: 'custbody_pe_descrp_motivo_traslado', value: getMotivoTraslado(id_motivo_traslado)['nombre'], ignoreFieldChange: true });
-                        objRecord.setValue({ fieldId: 'custbody_psg_ei_template', value: PE_Item_Fulfillment_FEL_Template, ignoreFieldChange: true });
-                        objRecord.setValue({ fieldId: 'custbody_psg_ei_status', value: For_Generation_Status, ignoreFieldChange: true });
-                        objRecord.setValue({ fieldId: 'custbody_psg_ei_sending_method', value: PE_FEL_Sending_Method_Guias, ignoreFieldChange: true });
+                        if(IDFormulario != FORMULARIO_PE_PREVENTA_ITEM_FULFILLMENT){
+                            objRecord.setValue({ fieldId: 'custbody_pe_tipo_conductor', value: 'Principal', ignoreFieldChange: true });
 
+                            if (tipo_transaccion_origen === SALES_ORDER) {
+                                id_motivo_traslado = 1;
+                            } else if (tipo_transaccion_origen === VENDOR_RETURN_AUTHORIZATION) {
+                                id_motivo_traslado = 2;
+                            } else if (tipo_transaccion_origen === TRANSFER_ORDER) {
+                                id_motivo_traslado = 3;
+                            }
+                            objRecord.setValue({ fieldId: 'custbody_pe_motivo_traslado', value: id_motivo_traslado, ignoreFieldChange: true });
+                            objRecord.setValue({ fieldId: 'custbody_pe_descrp_motivo_traslado', value: getMotivoTraslado(id_motivo_traslado)['nombre'], ignoreFieldChange: true });
+                            objRecord.setValue({ fieldId: 'custbody_psg_ei_template', value: PE_Item_Fulfillment_FEL_Template, ignoreFieldChange: true });
+                            objRecord.setValue({ fieldId: 'custbody_psg_ei_status', value: For_Generation_Status, ignoreFieldChange: true });
+                            objRecord.setValue({ fieldId: 'custbody_psg_ei_sending_method', value: PE_FEL_Sending_Method_Guias, ignoreFieldChange: true });
+                        }
                     }
                 } else if (objRecord.type == ITEM_RECEIPT) {
                     objRecord.setValue({ fieldId: 'custbody_pe_document_type', value: GUIA_REMISION_REMITENTE, ignoreFieldChange: true, forceSyncSourcing: true });
@@ -88,7 +90,7 @@ define(['N/log', 'N/search', 'N/record'], (log, search, record) => {
                             fieldLookUp = search.lookupFields({ type: search.Type.VENDOR_RETURN_AUTHORIZATION, id: createdfrom, columns: ['location'] });
                             typeRecordFrom = VENDOR_RETURN_AUTHORIZATION;
                             if (Object.keys(fieldLookUp).length === 0) {
-                                fieldLookUp = search.lookupFields({ type: search.Type.TRANSFER_ORDER, id: createdfrom, columns: ['transferlocation', 'custbody_pe_serie'] });
+                                fieldLookUp = search.lookupFields({ type: search.Type.TRANSFER_ORDER, id: createdfrom, columns: ['transferlocation'/*, 'custbody_pe_serie'*/] });
                                 typeRecordFrom = TRANSFER_ORDER;
                                 if (Object.keys(fieldLookUp).length === 0) {
                                     fieldLookUp = search.lookupFields({ type: search.Type.RETURN_AUTHORIZATION, id: createdfrom, columns: ['location'] });
@@ -109,13 +111,14 @@ define(['N/log', 'N/search', 'N/record'], (log, search, record) => {
                         let document_type = objRecord.getValue({ fieldId: 'custbody_pe_document_type' });
                         let pe_number = objRecord.getValue({ fieldId: 'custbody_pe_number' });
                         objRecord.setValue({ fieldId: 'custbody_pe_document_type_ref', value: document_type, ignoreFieldChange: true });
-                        objRecord.setValue({ fieldId: 'custbody_pe_document_series_ref', value: fieldLookUp.custbody_pe_serie[0].text, ignoreFieldChange: true });
+                        //objRecord.setValue({ fieldId: 'custbody_pe_document_series_ref', value: fieldLookUp.custbody_pe_serie[0].text, ignoreFieldChange: true });
                         objRecord.setValue({ fieldId: 'custbody_pe_document_number_ref', value: pe_number, ignoreFieldChange: true });
-                        objRecord.setValue({ fieldId: 'custbody_pe_serie_cxp', value: 'Por generar', ignoreFieldChange: true });
-                        objRecord.setValue({ fieldId: 'custbody_pe_number', value: 'Por generar', ignoreFieldChange: true });
+                        objRecord.setValue({ fieldId: 'custbody_pe_serie_cxp', value: 'No aplica', ignoreFieldChange: true });
+                        objRecord.setValue({ fieldId: 'custbody_pe_number', value: 'No aplica', ignoreFieldChange: true });
                     } else {
                         location = fieldLookUp.location[0].value;
                     }
+
                     objRecord.setValue({
                         fieldId: 'custbody_pe_location_source',
                         value: location,
@@ -155,27 +158,9 @@ define(['N/log', 'N/search', 'N/record'], (log, search, record) => {
                             }
                         }
                     } catch (error) { }
-                    // try {
-                    //     let linecount = objRecord.getLineCount({ sublistId: 'item' });
-                    //     let k = 0;
-                    //     if (linecount != 0) {
-                    //         for (let j = 0; j < linecount; j++) {
-                    //             k = j;
-                    //             let itemtype = objRecord.getSublistValue({ sublistId: 'item', fieldId: 'itemtype', line: j });
-                    //             if (itemtype == 'InvtPart') {
-                    //                 let itemtypeDSCTO = objRecord.getSublistValue({ sublistId: 'item', fieldId: 'itemtype', line: k + 1 });
-                    //                 if (itemtypeDSCTO == 'Discount') {
-                    //                     let grossDiscount = objRecord.getSublistValue({ sublistId: 'item', fieldId: 'grossamt', line: k + 1 });
-                    //                     grossDiscount = Math.abs(grossDiscount);
-                    //                     objRecord.setSublistValue({ sublistId: 'item', fieldId: 'custcol_pe_discount_line', line: j, value: grossDiscount });
-                    //                     objRecord.setSublistValue({ sublistId: 'item', fieldId: 'custcol_pe_is_discount_line', line: k + 1, value: true });
-                    //                 }
-                    //             }
-                    //         }
-                    //     }
-                    // } catch (error) { }
                 } else if (objRecord.type == ITEM_FULFILLMENT) {
                     let flag_created_from = objRecord.getValue({ fieldId: 'custbody_pe_flag_created_from' });
+                    let IDFormulario = objRecord.getValue({ fieldId: 'customform' });
                     if (flag_created_from == SALES_ORDER) {
                         try {
                             let lines = JSON.parse(objRecord.getValue({ fieldId: 'custbody_pe_flag_lines_csg' }));
@@ -186,36 +171,30 @@ define(['N/log', 'N/search', 'N/record'], (log, search, record) => {
                                 }
                             }
                         } catch (error) { }
-
-                        // try {
-                        //     let location_source = objRecord.getValue({ fieldId: 'custbody_pe_location_source' });
-                        //     let document_type = objRecord.getValue({ fieldId: 'custbody_pe_document_type' });
-                        //     let returnSerie = generateSerie(document_type, location_source);
-                        //     objRecord.setValue({ fieldId: 'custbody_pe_serie', value: returnSerie.peserieId, ignoreFieldChange: true });
-                        //     objRecord.setValue({ fieldId: 'custbody_pe_number', value: returnSerie.correlative, ignoreFieldChange: true });
-                        //     objRecord.setValue({ fieldId: 'custbody_pe_flag_serie', value: returnSerie.serieImpresion, ignoreFieldChange: true });
-                        // } catch (error) { }
                     }
 
-                    try {
-                        let location_source = objRecord.getValue({ fieldId: 'custbody_pe_location_source' });
-                        let document_type = objRecord.getValue({ fieldId: 'custbody_pe_document_type' });
-                        let returnSerie = generateSerie(document_type, location_source);
-                        log.debug('returnSerie', returnSerie);
-                        objRecord.setValue({ fieldId: 'custbody_pe_serie', value: returnSerie.peserieId, ignoreFieldChange: true });
-                        objRecord.setValue({ fieldId: 'custbody_pe_number', value: returnSerie.correlative, ignoreFieldChange: true });
-                        objRecord.setValue({ fieldId: 'custbody_pe_flag_serie', value: returnSerie.serieImpresion, ignoreFieldChange: true });
-                        objRecord.setValue({ fieldId: 'tranid', value: 'GR-'+ returnSerie.serieImpresion + '-' + returnSerie.correlative});
-                    } catch (error) { }
-
-
+                    if(IDFormulario != FORMULARIO_PE_PREVENTA_ITEM_FULFILLMENT){
+                        try {
+                            let location_source = objRecord.getValue({ fieldId: 'custbody_pe_location_source' });
+                            let document_type = objRecord.getValue({ fieldId: 'custbody_pe_document_type' });
+                            let returnSerie = generateSerie(document_type, location_source);
+                            log.debug('returnSerie', returnSerie);
+                            objRecord.setValue({ fieldId: 'custbody_pe_serie', value: returnSerie.peserieId, ignoreFieldChange: true });
+                            objRecord.setValue({ fieldId: 'custbody_pe_number', value: returnSerie.correlative, ignoreFieldChange: true });
+                            objRecord.setValue({ fieldId: 'custbody_pe_flag_serie', value: returnSerie.serieImpresion, ignoreFieldChange: true });
+                            objRecord.setValue({ fieldId: 'tranid', value: 'GR-'+ returnSerie.serieImpresion + '-' + returnSerie.correlative});
+                        } catch (error) { }
+                    }
+                    
                 } else if (objRecord.type == TRANSFER_ORDER) {
                     try {
                         let location_source = objRecord.getValue({ fieldId: 'location' });
                         let document_type = objRecord.getValue({ fieldId: 'custbody_pe_document_type' });
+                        /*
                         let returnSerie = generateSerie(document_type, location_source);
                         objRecord.setValue({ fieldId: 'custbody_pe_serie', value: returnSerie.peserieId, ignoreFieldChange: true });
                         objRecord.setValue({ fieldId: 'custbody_pe_number', value: returnSerie.correlative, ignoreFieldChange: true });
+                        */
                         //objRecord.setValue({ fieldId: 'tranid', value: 'TO-'+ returnSerie.serieImpresion + '-' + returnSerie.correlative});
                     } catch (error) { }
                 } else if (objRecord.type == ITEM_RECEIPT) {
@@ -224,9 +203,10 @@ define(['N/log', 'N/search', 'N/record'], (log, search, record) => {
                         try {
                             let location_source = objRecord.getValue({ fieldId: 'custbody_pe_location_source' });
                             let document_type = objRecord.getValue({ fieldId: 'custbody_pe_document_type' });
-                            let returnSerie = generateSerie(document_type, location_source);
-                            objRecord.setValue({ fieldId: 'custbody_pe_serie_cxp', value: returnSerie.serieImpresion, ignoreFieldChange: true });
-                            objRecord.setValue({ fieldId: 'custbody_pe_number', value: returnSerie.correlative, ignoreFieldChange: true });
+                            //! DESHABILITADO POR TEMA DE CAMBIO DE PROVEEDOR
+                            // let returnSerie = generateSerie(document_type, location_source);
+                            // objRecord.setValue({ fieldId: 'custbody_pe_serie_cxp', value: returnSerie.serieImpresion, ignoreFieldChange: true });
+                            // objRecord.setValue({ fieldId: 'custbody_pe_number', value: returnSerie.correlative, ignoreFieldChange: true });
                             //objRecord.setValue({ fieldId: 'tranid', value: 'IR-'+ returnSerie.serieImpresion + '-' + returnSerie.correlative});
                         } catch (error) { }
                     }

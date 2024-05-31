@@ -515,8 +515,71 @@ define(['N/currentRecord', 'N/record', 'N/search', 'N/ui/dialog'], (currentRecor
         }
     }
 
+    function fieldChanged(context) {
+        try {
+            var currentRecord = context.currentRecord;
+            var sublistName = context.sublistId;
+            var typeTransaction = currentRecord.type;
+            var fieldName = context.fieldId;
+
+            if (typeTransaction == ITEM_FULFILLMENT){
+                if (typeMode == 'create' || typeMode == 'copy' || typeMode == 'edit'){
+                    if(fieldName == 'custbody_pe_ubigeo_pto_partida'){
+                        var IDPartida = currentRecord.getValue('custbody_pe_ubigeo_pto_partida');
+                        if(IDPartida != ''){
+                            var fieldLookUp = search.lookupFields({
+                                type: 'customrecord_pe_ubigeo',
+                                id: IDPartida,
+                                columns: ['name']
+                            });
+
+                            var nombreUbigeo = fieldLookUp.name;
+                            nombreUbigeo = nombreUbigeo.split(': ')
+                            var departamentoEmisor = nombreUbigeo[0].toUpperCase();
+                            var provinciaEmisor = nombreUbigeo[1].toUpperCase();
+                            var distritoEmisor = nombreUbigeo[2].toUpperCase();
+
+                            currentRecord.setValue('custbody_pe_departamento_emisor',departamentoEmisor);
+                            currentRecord.setValue('custbody_pe_provincia_emisor',provinciaEmisor);
+                            currentRecord.setValue('custbody_pe_distrito_emisor',distritoEmisor);
+                        }
+
+                    }
+
+                    if(fieldName == 'custbody_pe_ubigeo_pto_llegada'){
+                        var IDLlegada = currentRecord.getValue('custbody_pe_ubigeo_pto_llegada');
+                        if(IDLlegada != ''){
+                            var fieldLookUp = search.lookupFields({
+                                type: 'customrecord_pe_ubigeo',
+                                id: IDLlegada,
+                                columns: ['name']
+                            });
+
+                            var nombreUbigeo = fieldLookUp.name;
+                            nombreUbigeo = nombreUbigeo.split(': ')
+                            var departamentoReceptor = nombreUbigeo[0].toUpperCase();
+                            var provinciaReceptor = nombreUbigeo[1].toUpperCase();
+                            var distritoReceptor = nombreUbigeo[2].toUpperCase();
+
+                            currentRecord.setValue('custbody_pe_departamento_receptor',departamentoReceptor);
+                            currentRecord.setValue('custbody_pe_provincia_receptor',provinciaReceptor);
+                            currentRecord.setValue('custbody_pe_distrito_receptor',distritoReceptor);
+                        }
+
+                    }
+                }
+            }
+
+        } catch (e) {
+            console.log('Error en fieldChanged: ' + e);
+
+        }
+
+    }
+
     return {
         pageInit: pageInit,
+        fieldChanged: fieldChanged,
         saveRecord: saveRecord
     }
 });
