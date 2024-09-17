@@ -94,7 +94,6 @@ define(['N/ui/serverWidget', 'N/search', 'N/redirect', 'N/file'], function (serv
                 var resultsVendors = obtenerProveedores();
                 var pageVen = 0;
                 var pagedVendor = resultsVendors.runPaged({ pageSize: 1000 });
-
                 pagedVendor.pageRanges.forEach(function (pageRange) {
                     pageVen = pagedVendor.fetch({ index: pageRange.index });
                     log.debug('pageVen', pageVen);
